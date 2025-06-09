@@ -6,6 +6,8 @@
 
 - 有権者は/tag @s add EditCでconfig編集
 
+- 強制終了:/scriptevent bgc:end
+
 - ハードコードにより、有権者には
 - SCPzaidann 1958 (開発者、Delta_convetor)
 - Reiya4384 (配信主、れいやさん) が強制的に追加されてます

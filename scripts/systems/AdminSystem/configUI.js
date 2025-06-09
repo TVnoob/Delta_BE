@@ -36,9 +36,9 @@ function showConfigUI(player) {
     .title("ゲーム設定 - Config UI")
     .textField("鬼の人数（数字）", "例: 1", { defaultValue: String(config.oniCount ?? 1) })
     .textField("行けるY座標の下限", "例: 0", { defaultValue: String(config.minYLimit ?? 0)})
-    .toggle("Developモードを有効化(broken?needCheck)")
+    .toggle("Developモードを有効化(broken!)")
     .toggle("次回ゲームでボーダースキャンを実行(broken!)")
-    .toggle("強制終了をONにする（推奨）", {defaultValue: true})
+    .toggle("強制終了をONにする（broken!）", {defaultValue: true})
     .textField("制限時間（秒）", "例: 300", { defaultValue: String(config.timeLimitSec ?? 300)})
     .dropdown("鬼スポーン位置をここに設定", ["実行しない", "ここに設定"], { defaultValueIndex: 0 })
     .dropdown("ロビー地点をここに設定", ["実行しない", "ここに設定"], { defaultValueIndex: 0 });
