@@ -48,7 +48,7 @@ function showConfigUI(player) {
   form.show(player).then(response => {
     if (response.canceled) return;
 
-  const [borderScanToggle,timeLimitText,oniCountText, minYLimitText, developToggle, forceToggle, oniSet, lobbySet] = response.formValues;
+  const [oniCountText, minYLimitText, developToggle, borderScanToggle, forceToggle, timeLimitText, oniSet, lobbySet] = response.formValues;
   
   const timeLimit = parseInt(timeLimitText);
   if (!isNaN(timeLimit)) config.timeLimitSec = timeLimit;
