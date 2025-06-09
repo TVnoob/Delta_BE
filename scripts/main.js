@@ -14,7 +14,7 @@ import { registerRootChestKitUI } from "./systems/rcuis/rootchestkitUI.js";
 import { registerRootChestLibraryUI } from "./systems/rcuis/rootchestlib.js";
 import { registerRootChestLoader } from "./systems/special/loadrc.js";
 import { startRootChestAutoReload } from "./systems/special/autoreloadrc.js";
-import { banListSystem } from "./systems/GameSystems/BanLisy.js";
+import { banListSystem } from "./systems/GameSystems/BanList.js";
 
 reviveSystem();
 configUIHandler();

@@ -20,6 +20,7 @@
 - reviveSystem.js … 捕まり後の20秒処理・復活or観戦
 - speedEnevt.js … スタミナムイベント
 - catchedEv.js … 金棒のシステム
+- BanList.js … BanListに入っているプレイヤーは全員強制観戦
 
 ## Admin Systems
 - adminControl.js … 高権限プレイヤーUI
