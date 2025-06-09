@@ -7,31 +7,33 @@ const END_COMMAND = "function r_bgc";
 let remainingTicks = -1;
 
 export function endGameSystem() {
-  // 🎯 金棒ドロップによる強制終了
+  // 金棒ドロップによる強制終了検知
   world.afterEvents.entitySpawn.subscribe(ev => {
     const ent = ev.entity;
-    if (ent.typeId === "minecraft:item") {
-      const stk = ent.getComponent("minecraft:item")?.itemStack;
+    if (ent?.typeId === "minecraft:item") {
+      const stkComp = ent.getComponent("minecraft:item");
+      const stk = stkComp?.itemStack;
       console.warn(`🔍 Spawned item: ${stk?.typeId} nameTag=${stk?.nameTag}`);
-      if (stk?.typeId === "minecraft:stick" && stk.nameTag === "§l§g金棒") {
+      if (stk?.typeId === "minecraft:stick" && stk?.nameTag === "§l§g金棒") {
         const throwerId = ent.getComponent("minecraft:thrower")?.thrower;
-        if (throwerId) {
-          const oni = world.getPlayers().find(p => p.id === throwerId && p.hasTag("oni"));
-          if (oni) {
-            console.warn("⚠️ 金棒ドロップ検出！強制終了トリガー");
-            ent.kill();
-            world.setDynamicProperty(GAME_STARTED_KEY, false);
-            world.getDimension("overworld")
-              .runCommand("scriptevent bgc:end forceEnd")
-              .catch(e => console.warn("⚠️ bgc:end trigger failed:", e));
-            runEndCommand("鬼による金棒ドロップで強制終了");
+        console.warn(`🔍 Thrower ID: ${throwerId}`);
+        const oni = world.getPlayers().find(p => p.id === throwerId && p.hasTag("oni"));
+        if (oni) {
+          console.warn(`⚠️ 金棒ドロップ検出！強制終了トリガー by ${oni.name}`);
+          ent.kill();
+          world.setDynamicProperty(GAME_STARTED_KEY, false);
+          // runCommand に .catch を使わない。同期版なので例外なら try/catch
+          try {
+            world.getDimension("overworld").runCommand("scriptevent bgc:end forceEnd");
+          } catch (ex) {
+            console.warn("⚠️ scriptevent bgc:end forceEnd コマンド実行失敗:", ex);
           }
+          runEndCommand("鬼による金棒ドロップで強制終了");
         }
       }
     }
   });
 
-  // スクリプトイベントによる開始／通常終了
   system.afterEvents.scriptEventReceive.subscribe(event => {
     if (event.id === "bgc:start") {
       world.setDynamicProperty(GAME_STARTED_KEY, true);
@@ -59,17 +61,21 @@ export function endGameSystem() {
   });
 
   system.runInterval(() => {
-    if (!world.getDynamicProperty(GAME_STARTED_KEY)) return;
+    const started = world.getDynamicProperty(GAME_STARTED_KEY);
+    if (!started) return;
+
     const players = world.getPlayers();
     if (players.length === 0) return;
 
-    // ① 全逃走者 injail → 鬼勝利
+    // ① 全逃走者が injail → 鬼勝利
     const runners = players.filter(p => !p.hasTag("oni"));
     if (runners.length > 0 && runners.every(p => p.hasTag("injail"))) {
       world.setDynamicProperty(GAME_STARTED_KEY, false);
-      world.getDimension("overworld")
-        .runCommand("scriptevent bgc:end allCaught")
-        .catch(e => console.warn("⚠️ bgc:end trigger failed:", e));
+      try {
+        world.getDimension("overworld").runCommand("scriptevent bgc:end allCaught");
+      } catch (ex) {
+        console.warn("⚠️ scriptevent bgc:end allCaught 実行失敗:", ex);
+      }
       runEndCommand("逃げ全滅により鬼の勝利");
       return;
     }
@@ -79,16 +85,23 @@ export function endGameSystem() {
       remainingTicks--;
       if (remainingTicks % 20 === 0) {
         const sec = Math.ceil(remainingTicks / 20);
-        for (const p of players) p.runCommand(`title @s actionbar §e残り時間: ${sec} 秒`);
+        for (const p of players) {
+          try {
+            p.runCommand(`title @s actionbar §e残り時間: ${sec} 秒`);
+          } catch {}
+        }
       }
       if (remainingTicks <= 0) {
         world.setDynamicProperty(GAME_STARTED_KEY, false);
-        world.getDimension("overworld")
-          .runCommand("scriptevent bgc:end timeUp")
-          .catch(e => console.warn("⚠️ bgc:end trigger failed:", e));
+        try {
+          world.getDimension("overworld").runCommand("scriptevent bgc:end timeUp");
+        } catch (ex) {
+          console.warn("⚠️ scriptevent bgc:end timeUp 実行失敗:", ex);
+        }
         runEndCommand("時間切れによる逃げの勝利");
       }
     }
+
   }, 1);
 }
 
@@ -99,6 +112,6 @@ function runEndCommand(reason) {
     dim.runCommand("scoreboard objectives remove a");
     world.sendMessage(`§l§c【試合終了】§r §7(${reason})`);
   } catch (e) {
-    console.warn("⚠️ function r_bgc の実行に失敗:", e);
+    console.warn("⚠️ function r_bgc 実行失敗:", e);
   }
 }
