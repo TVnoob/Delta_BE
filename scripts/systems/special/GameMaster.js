@@ -15,6 +15,19 @@ export function gamemastersystemscript(){
     const player = event.player;
 
     if (id === "bgc:start") {
+    try {
+      const players = world.getPlayers();
+      for (const player of players) {
+        const inv = player.getComponent("minecraft:inventory")?.container;
+        if (inv) {
+          for (let i = 0; i < inv.size; i++) {
+            inv.setItem(i, undefined);
+          }
+        }
+      }
+    } catch (err) {
+      console.warn("⚠️ インベントリクリア中にエラー:", err);
+    }
       if (gameStarted) return;
       gameStarted = true;
 
@@ -32,8 +45,6 @@ export function gamemastersystemscript(){
           totalOniCount = config.oniCount ?? 1;
         } catch {}
       }
-
-    player.runCommand("clear @s");
     if (inv) {
       for (let i = 0; i < inv.size; i++) {
         inv.setItem(i, undefined);
