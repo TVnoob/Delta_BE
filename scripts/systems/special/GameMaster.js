@@ -52,13 +52,17 @@ export function gamemastersystemscript(){
       const playerPlayers = shuffledPlayers.slice(totalOniCount);
 
       // 鬼と逃げるプレイヤーにタグを付与
-      for (const player of oniPlayers) {
-        player.addTag("oni");
+    for (const player of oniPlayers) {
+      player.addTag("oni");
 
-        const userItem = new ItemStack("minecraft:stick", 1)
+      const userItem = new ItemStack("minecraft:stick", 1);
 
-        inv.setItem(0, userItem)
+      const inventoryComp = player.getComponent("minecraft:inventory");
+      if (inventoryComp) {
+        const inv = inventoryComp.container;
+        inv.setItem(0, userItem);
       }
+    }
       for (const player of playerPlayers) {
         player.addTag("nige");
       }
