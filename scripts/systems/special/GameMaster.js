@@ -127,6 +127,7 @@ export function gamemastersystemscript(){
         }
 
         // アイテムを付与
+      const inv = player.getComponent("minecraft:inventory")?.container;
       const adminList = getAdminList();
       if (adminList.includes(player.name)) {
         const userItem = new ItemStack("additem:setusystem", 1)
