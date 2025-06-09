@@ -7,7 +7,7 @@ const END_COMMAND = "function r_bgc";
 let remainingTicks = -1;
 
 export function endGameSystem() {
-  // 金棒ドロップによる強制終了検知
+  // 金棒ドロップによる強制終了検知(broken!  アイテム名のカラーコードが識別できない問題)
   world.afterEvents.entitySpawn.subscribe(ev => {
     const ent = ev.entity;
     if (ent?.typeId === "minecraft:item") {
