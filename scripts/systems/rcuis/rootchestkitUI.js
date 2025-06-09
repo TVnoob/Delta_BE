@@ -8,14 +8,15 @@ const CHEST_ID_COUNT_KEY = "rootchest_id_counter";
 export function registerRootChestKitUI() {
   world.beforeEvents.itemUse.subscribe(event => {
     const { source, itemStack } = event;
+
+    if (!itemStack || itemStack.typeId !== "system:rcck") return;
+
     if (!source || !source.isOp()) {
       source?.sendMessage("§c権限がありません、オペレーターにオペレーター権限を要求してください");
       return;
     }
 
-    if (itemStack?.typeId === "system:rcck") {
-      system.run(() => showRootChestForm(source));
-    }
+    system.run(() => showRootChestForm(source));
   });
 
   function showRootChestForm(player) {

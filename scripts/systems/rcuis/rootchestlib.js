@@ -7,18 +7,21 @@ const CHEST_DATA_KEY = "rootchest_data_map";
 export function registerRootChestLibraryUI() {
   world.beforeEvents.itemUse.subscribe(event => {
     const { source, itemStack } = event;
+
+    if (!itemStack || itemStack.typeId !== "system:rclib") return;
+
     if (!source || !source.isOp()) {
       source?.sendMessage("§c権限がありません、オペレーターにオペレーター権限を要求してください");
       return;
     }
 
-    if (itemStack?.typeId === "system:rclib") {
+    system.run(() => {
       if (source.isSneaking) {
-        system.run(() => showPurgeUI(source));
+        showPurgeUI(source);
       } else {
-        system.run(() => openLibraryUI(source));
+        openLibraryUI(source);
       }
-    }
+    });
   });
 
   function openLibraryUI(player) {

@@ -9,20 +9,21 @@ const RELOAD_INTERVALS_KEY = "rootchest_reload_intervals";
 export function registerRootChestLoader() {
   world.beforeEvents.itemUse.subscribe(event => {
     const { source, itemStack } = event;
+
+    if (!itemStack || itemStack.typeId !== "system:loadrc") return;
+
     if (!source || !source.isOp()) {
       source?.sendMessage("§c権限がありません、オペレーターにオペレーター権限を要求してください");
       return;
     }
 
-    if (itemStack?.typeId === "system:loadrc") {
-      system.run(() => {
-        if (source.isSneaking) {
-          showCycleSettingUI(source);
-        } else {
-          showLoadUI(source);
-        }
-      });
-    }
+    system.run(() => {
+      if (source.isSneaking) {
+        showCycleSettingUI(source);
+      } else {
+        showLoadUI(source);
+      }
+    });
   });
 
   function showCycleSettingUI(player) {
