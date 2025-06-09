@@ -70,6 +70,7 @@ export function gamemastersystemscript(){
       // 鬼はアドベンチャーモードで待機
       for (const player of oniPlayers) {
         player.runCommand("gamemode adventure");
+        player.runCommand("xp -1000L");
       }
 
       // 逃げるプレイヤーはスペクテイターモードで開始地点を選択
@@ -84,7 +85,7 @@ export function gamemastersystemscript(){
         }
 
         // 鬼をロビーからゲームエリアへテレポート
-        const configJson = world.getDynamicProperty(config_data);
+        const configJson = world.getDynamicProperty("config_data");
         if (configJson) {
           try {
             const config = JSON.parse(configJson);
