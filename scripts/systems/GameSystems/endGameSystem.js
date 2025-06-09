@@ -33,19 +33,20 @@ export function endGameSystem() {
   });
 
   // ⏱ メインループ：毎tick検査
-  system.runInterval(() => {
-    if (!world.getDynamicProperty(GAME_STARTED_KEY)) return;
+system.runInterval(() => {
+  const started = world.getDynamicProperty(GAME_STARTED_KEY);
+  if (!started || remainingTicks < 0) return; // ← ここで早期リターン
 
-    const players = world.getPlayers();
-    if (players.length === 0) return;
+  const players = world.getPlayers();
+  if (players.length === 0) return;
 
-    // 1. 全逃げ捕縛 → 鬼の勝利
-    const runners = players.filter(p => !p.hasTag("oni"));
-    if (runners.length > 0 && runners.every(p => p.hasTag("injail"))) {
-      world.setDynamicProperty(GAME_STARTED_KEY, false);
-      runEndCommand("逃げ全滅により鬼の勝利");
-      return;
-    }
+  // 逃げ全員捕まりチェック
+  const targets = players.filter(p => !p.hasTag("oni"));
+  if (targets.length > 0 && targets.every(p => p.hasTag("injail"))) {
+    world.setDynamicProperty(GAME_STARTED_KEY, false);
+    runEndCommand("逃げ全滅により鬼の勝利");
+    return;
+  }
 
     // 2. 鬼が「金棒」をドロップ → 強制終了
     const dim = world.getDimension("overworld");
@@ -65,23 +66,20 @@ export function endGameSystem() {
     }
 
     // 3. 時間経過による終了
-    if (remainingTicks >= 0) {
-      remainingTicks--;
-      if (remainingTicks % 20 === 0) {
-        const sec = Math.max(0, Math.floor(remainingTicks / 20));
-        for (const p of players) {
-          p.runCommand(`title @s actionbar §e残り時間: ${sec} 秒`);
-        }
-        world.getDimension("overworld")
-          .runCommand(`scoreboard players set 残り時間 a ${sec}`);
-      }
-      if (remainingTicks <= 0) {
-        world.setDynamicProperty(GAME_STARTED_KEY, false);
-        runEndCommand("時間切れによる逃げの勝利");
-        return;
-      }
+  remainingTicks--;
+  if (remainingTicks % 20 === 0) {
+    const secLeft = Math.floor(remainingTicks / 20);
+    for (const player of players) {
+      player.runCommand(`title @s actionbar §e残り時間: ${secLeft} 秒`);
     }
-  }, 1);
+  }
+
+  if (remainingTicks <= 0) {
+    world.setDynamicProperty(GAME_STARTED_KEY, false);
+    runEndCommand("時間切れによる逃げの勝利");
+  }
+}, 1);
+
 
   function runEndCommand(reason) {
     try {
