@@ -84,10 +84,10 @@ export function gamemastersystemscript(){
         }
 
         // 鬼をロビーからゲームエリアへテレポート
-        const configRaw = world.getDynamicProperty(configRaw);
-        if (configRaw) {
+        const configJson = world.getDynamicProperty(config_data);
+        if (configJson) {
           try {
-            const config = JSON.parse(configRaw);
+            const config = JSON.parse(configJson);
             const oniSpawn = config.oniSpawn;
             if (oniSpawn) {
               for (const player of oniPlayers) {
