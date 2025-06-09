@@ -15,7 +15,9 @@ import { registerRootChestLibraryUI } from "./systems/rcuis/rootchestlib.js";
 import { registerRootChestLoader } from "./systems/special/loadrc.js";
 import { startRootChestAutoReload } from "./systems/special/autoreloadrc.js";
 import { banListSystem } from "./systems/GameSystems/BanList.js";
+import { thisistruerandomTP } from "./systems/GameSystems/RandomTP.js"
 
+thisistruerandomTP();
 reviveSystem();
 configUIHandler();
 gamemastersystemscript();
