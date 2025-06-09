@@ -1,4 +1,4 @@
-// scripts/systems/GameMaster.js
+// scripts/systems/special/GameMaster.js
 import { system, world, ItemStack } from "@minecraft/server";
 import { resetAllTimerMap } from "./autoreloadrc.js";
 
