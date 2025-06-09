@@ -7,16 +7,18 @@ const END_COMMAND = "function r_bgc";
 let remainingTicks = -1;
 
 export function endGameSystem() {
-  // 🎯 Gold-stick spawn listener → forced end
+  // 🎯 金棒ドロップによる強制終了
   world.afterEvents.entitySpawn.subscribe(ev => {
     const ent = ev.entity;
     if (ent.typeId === "minecraft:item") {
       const stk = ent.getComponent("minecraft:item")?.itemStack;
+      console.warn(`🔍 Spawned item: ${stk?.typeId} nameTag=${stk?.nameTag}`);
       if (stk?.typeId === "minecraft:stick" && stk.nameTag === "§l§g金棒") {
         const throwerId = ent.getComponent("minecraft:thrower")?.thrower;
         if (throwerId) {
           const oni = world.getPlayers().find(p => p.id === throwerId && p.hasTag("oni"));
           if (oni) {
+            console.warn("⚠️ 金棒ドロップ検出！強制終了トリガー");
             ent.kill();
             world.setDynamicProperty(GAME_STARTED_KEY, false);
             world.getDimension("overworld")
@@ -29,6 +31,7 @@ export function endGameSystem() {
     }
   });
 
+  // スクリプトイベントによる開始／通常終了
   system.afterEvents.scriptEventReceive.subscribe(event => {
     if (event.id === "bgc:start") {
       world.setDynamicProperty(GAME_STARTED_KEY, true);
@@ -56,13 +59,11 @@ export function endGameSystem() {
   });
 
   system.runInterval(() => {
-    const started = world.getDynamicProperty(GAME_STARTED_KEY);
-    if (!started) return;
-
+    if (!world.getDynamicProperty(GAME_STARTED_KEY)) return;
     const players = world.getPlayers();
     if (players.length === 0) return;
 
-    // ① 全逃走者が injail → 鬼勝利
+    // ① 全逃走者 injail → 鬼勝利
     const runners = players.filter(p => !p.hasTag("oni"));
     if (runners.length > 0 && runners.every(p => p.hasTag("injail"))) {
       world.setDynamicProperty(GAME_STARTED_KEY, false);
@@ -73,14 +74,12 @@ export function endGameSystem() {
       return;
     }
 
-    // ③ 制限時間のカウント
+    // ③ 制限時間カウント
     if (remainingTicks >= 0) {
       remainingTicks--;
       if (remainingTicks % 20 === 0) {
         const sec = Math.ceil(remainingTicks / 20);
-        for (const p of players) {
-          p.runCommand(`title @s actionbar §e残り時間: ${sec} 秒`);
-        }
+        for (const p of players) p.runCommand(`title @s actionbar §e残り時間: ${sec} 秒`);
       }
       if (remainingTicks <= 0) {
         world.setDynamicProperty(GAME_STARTED_KEY, false);
