@@ -1,10 +1,10 @@
 {
     "format_version": 2,
     "header": {
-        "description": "クリエイター機能項目を全部ONにしてください。有権者は/tag @s add EditCでconfig編集",
-        "name": "Delta_0nigo_BE",
-        "uuid": "7ab749ce-64b2-40bd-870b-3f9a66b88f0d",
-        "version": [ 1, 0, 4 ],
+        "description": "READMEを必ず読んでください。",
+        "name": "Reiya_0nigo_BE",
+        "uuid": "6ce2f255-5cd1-4255-9ceb-1f623bf4a66b",
+        "version": [ 1, 0, 0 ],
         "min_engine_version": [ 1, 18, 10 ]
     },
     "modules": [
@@ -12,14 +12,14 @@
             "description": "(試験的)",
             "type": "script",
             "language": "javascript",
-            "uuid": "8f044216-b20f-4f2c-92e0-b80046dd775f",
+            "uuid": "518f13f2-69ff-4ee5-9d14-8b4701841325",
             "entry": "scripts/main.js",
-            "version": [1, 1, 4]
+            "version": [1, 0, 0]
         }
     ],
     "dependencies": [
         {
-            "uuid": "92050887-c097-4999-b33a-4e7eb36a4316",
+            "uuid": "8a1a1eaa-7b47-4378-a754-22f097fb4aae",
             "version": [1, 0, 4]
         },
         {
