@@ -2,7 +2,7 @@
     "format_version": 2,
     "header": {
         "description": "READMEを必ず読んでください。",
-        "name": "Reiya_0nigo_BE",
+        "name": "Reiya_0nigo_BE(beta-1.0)",
         "uuid": "6ce2f255-5cd1-4255-9ceb-1f623bf4a66b",
         "version": [ 1, 0, 0 ],
         "min_engine_version": [ 1, 18, 10 ]
