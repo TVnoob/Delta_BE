@@ -45,11 +45,6 @@ export function gamemastersystemscript(){
           totalOniCount = config.oniCount ?? 1;
         } catch {}
       }
-    if (inv) {
-      for (let i = 0; i < inv.size; i++) {
-        inv.setItem(i, undefined);
-      }
-    }
 
 
       // プレイヤーをシャッフルして鬼を選出
