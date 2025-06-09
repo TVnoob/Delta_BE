@@ -1,3 +1,4 @@
+// scripts/susyems/AdminSystem/configUI.js
 import { world, system } from "@minecraft/server";
 import { ModalFormData } from "@minecraft/server-ui";
 

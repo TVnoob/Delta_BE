@@ -14,8 +14,13 @@ export function endGameSystem() {
 
       try {
         const config = JSON.parse(world.getDynamicProperty(CONFIG_KEY) ?? "{}");
-        const limitSec = typeof config.timeLimitSec === "number" ? config.timeLimitSec : 600;
+        const limitSec = Number.isFinite(config.timeLimitSec) ? config.timeLimitSec : 600;
         remainingTicks = limitSec * 20;
+
+        const dim = world.getDimension("overworld");
+        dim.runCommand(`scoreboard objectives add a dummy ゲーム情報`);
+        dim.runCommand(`scoreboard objectives setdisplay sidebar a`);
+        dim.runCommand(`scoreboard players set 残り時間 a ${limitSec}`);
         console.warn(`⏱️ 制限時間: ${limitSec} 秒 → ${remainingTicks} tick`);
       } catch (e) {
         console.warn("⚠️ 制限時間の初期取得に失敗:", e);
@@ -32,7 +37,7 @@ export function endGameSystem() {
 
   system.runInterval(() => {
     const started = world.getDynamicProperty(GAME_STARTED_KEY);
-    if (!started) return;
+    if (!started || remainingTicks < 0) return;
 
     const players = world.getPlayers();
     if (players.length === 0) return;
@@ -65,25 +70,27 @@ export function endGameSystem() {
     }
 
     // ③ 制限時間経過による終了
-    if (started && remainingTicks >= 0) {
-      remainingTicks--;
-      if (remainingTicks % 20 === 0) {
-        const sec = Math.floor(remainingTicks / 20);
-        for (const p of players) {
-          p.runCommand(`title @s actionbar §e残り時間: ${sec} 秒`);
-        }
+    remainingTicks--;
+    if (remainingTicks % 20 === 0) {
+      const sec = Math.floor(remainingTicks / 20);
+      for (const p of players) {
+        p.runCommand(`title @s actionbar §e残り時間: ${sec} 秒`);
       }
-      if (remainingTicks <= 0) {
-        world.setDynamicProperty(GAME_STARTED_KEY, false);
-        runEndCommand("時間切れによる逃げの勝利");
-      }
+      dim.runCommand(`scoreboard players set 残り時間 a ${sec}`);
+    }
+
+    if (remainingTicks <= 0) {
+      world.setDynamicProperty(GAME_STARTED_KEY, false);
+      runEndCommand("時間切れによる逃げの勝利");
     }
   }, 1);
 }
 
 function runEndCommand(reason) {
   try {
-    world.getDimension("overworld").runCommand(END_COMMAND);
+    const dim = world.getDimension("overworld");
+    dim.runCommand(END_COMMAND);
+    dim.runCommand(`scoreboard objectives remove a`);
     world.sendMessage(`§l§c【試合終了】§r §7(${reason})`);
   } catch (e) {
     console.warn("⚠️ function r_bgc の実行に失敗:", e);
