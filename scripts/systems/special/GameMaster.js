@@ -14,10 +14,6 @@ export function gamemastersystemscript(){
     const { id, message, sourceEntity } = event;
     const player = event.player;
 
-    const players = world.getPlayers();
-    const banArr = getBanList();
-
-    // インベントリクリア
     if (id === "bgc:start") {
     try {
       const players = world.getPlayers();
@@ -32,17 +28,6 @@ export function gamemastersystemscript(){
     } catch (err) {
       console.warn("⚠️ インベントリクリア中にエラー:", err);
     }
-
-    // banプレイヤーは脱落＝injailタグ＆スペクテイター
-    for (const p of players) {
-      if (banArr.includes(p.name)) {
-        p.removeTag("nige");
-        p.addTag("injail");
-        p.runCommand("gamemode spectator");
-      }
-    }
-
-
       if (gameStarted) return;
       gameStarted = true;
 
@@ -62,11 +47,9 @@ export function gamemastersystemscript(){
       }
 
       // プレイヤーをシャッフルして鬼を選出
-      const eligibles = players.filter(p => !banArr.includes(p.name));
-      const shuffled = shuffleArray(eligibles);
-      const totalOni = Math.max(1, JSON.parse(world.getDynamicProperty("config_data") ?? "{}").oniCount || 1);
-      const oniPlayers = shuffled.slice(0, totalOni);
-      const runnerPlayers = shuffled.slice(totalOni);
+      const shuffledPlayers = shuffleArray(players);
+      const oniPlayers = shuffledPlayers.slice(0, totalOniCount);
+      const playerPlayers = shuffledPlayers.slice(totalOniCount);
 
       // 鬼と逃げるプレイヤーにタグを付与
     for (const player of oniPlayers) {
@@ -208,24 +191,6 @@ export function gamemastersystemscript(){
     }
   });
 
-
-  function getBanList() {
-  try {
-    const arr = JSON.parse(world.getDynamicProperty(BANLIST_KEY) ?? "[]");
-    return Array.isArray(arr) ? arr : [];
-  } catch {
-    return [];
-  }
-  }
-
-  function shuffleArray(arr) {
-  const a = arr.slice();
-  for(let i = a.length -1; i>0; i--){
-    const j = Math.floor(Math.random()*(i+1));
-    [a[i], a[j]] = [a[j], a[i]];
-  }
-  return a;
- }
 
 
   // 管理者リストを取得する関数
