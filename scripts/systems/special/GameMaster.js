@@ -73,9 +73,15 @@ export function gamemastersystemscript(){
         player.runCommand("xp -1000L");
       }
 
-      // 逃げるプレイヤーはスペクテイターモードで開始地点を選択
       for (const player of playerPlayers) {
         player.runCommand("gamemode adventure");
+        const raw = world.getDynamicProperty(JAIL_POS_KEY) ?? "{}";
+        let jailData = {};
+        try { jailData = JSON.parse(raw); } catch {}
+        const jail1 = jailData.jail1;
+        if (jail1 && typeof jail1.x === "number") {
+          p.teleport(jail1);
+        }
       }
 
       // 20秒後に逃げるプレイヤーをアドベンチャーモードに変更し、鬼を解放

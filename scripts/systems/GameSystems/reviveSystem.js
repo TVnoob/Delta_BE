@@ -19,7 +19,7 @@ export function reviveSystem() {
       if (!p.hasTag("oni")) {
         p.runCommand("gamemode adventure");
         reviveTimers.set(p.name, 0);
-        p.runCommand("xp 20L");
+        p.addLevels(20);
       }
     }
   });
@@ -41,6 +41,9 @@ export function reviveSystem() {
 
       const ticks = (reviveTimers.get(name) || 0) + 1;
       reviveTimers.set(name, ticks);
+      if (ticks % 20 === 0) {
+        player.addLevels(-1);
+      }
 
       if (ticks >= REVIVE_DURATION_TICKS) {
         player.runCommand("xp -1000L");
