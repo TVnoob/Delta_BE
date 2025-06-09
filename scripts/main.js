@@ -6,14 +6,15 @@ import {systemscript1} from "./systems/AdminSystem/adminControl.js";
 import {systemscript2} from "./systems/AdminSystem/permissionGuard.js";
 import {systemscript3} from "./systems/UserSystems/setUsystemUI.js";
 import {jailSystem} from "./systems/JailSystems/jailSystem.js";
-import {endGameSystem} from "./systems/GameSystems/endGameSystem.js"
-import {gamemastersystemscript} from "./systems/special/GameMaster.js"
-import {configUIHandler} from "./systems/AdminSystem/configUI.js"
-import {reviveSystem} from "./systems/GameSystems/reviveSystem.js"
+import {endGameSystem} from "./systems/GameSystems/endGameSystem.js";
+import {gamemastersystemscript} from "./systems/special/GameMaster.js";
+import {configUIHandler} from "./systems/AdminSystem/configUI.js";
+import {reviveSystem} from "./systems/GameSystems/reviveSystem.js";
 import { registerRootChestKitUI } from "./systems/rcuis/rootchestkitUI.js";
 import { registerRootChestLibraryUI } from "./systems/rcuis/rootchestlib.js";
 import { registerRootChestLoader } from "./systems/special/loadrc.js";
 import { startRootChestAutoReload } from "./systems/special/autoreloadrc.js";
+import { banListSystem } from "./systems/GameSystems/BanLisy.js";
 
 reviveSystem();
 configUIHandler();
@@ -29,3 +30,4 @@ startRootChestAutoReload();
 registerRootChestLoader();
 registerRootChestLibraryUI();
 registerRootChestKitUI();
+banListSystem();
