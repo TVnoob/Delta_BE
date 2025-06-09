@@ -46,7 +46,6 @@ export function gamemastersystemscript(){
         } catch {}
       }
 
-
       // プレイヤーをシャッフルして鬼を選出
       const shuffledPlayers = shuffleArray(players);
       const oniPlayers = shuffledPlayers.slice(0, totalOniCount);

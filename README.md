@@ -1,6 +1,15 @@
 <<<<<<< HEAD
 
-# 鬼ごっこシステム スクリプト一覧
+# 鬼ごっこシステム＆スクリプト一覧
+
+- ゲームスタート:/scriptevent bgc:start
+
+- 有権者は/tag @s add EditCでconfig編集
+
+- ハードコードにより、有権者には
+　・SCPzaidann 1958 (開発者、Delta_convetor)
+　・Reiya4384 (配信主、れいやさん)
+　が強制的に追加されてます
 
 - main.js … スクリプトファイル証明
 
@@ -19,7 +28,8 @@
 - jailSystem.js … 捕まったプレイヤーのテレポート・復活数記録
 
 ## Utilitys
-- antiEscapeSystem.js … 境界越え・下限Y対策
+- antiEscapeSystem.js … 境界越え・下限Y対策(broken)
+  (このスクリプトのは需要が無くなってきているので、将来的に削除される可能性が高いです)
 
 ## User Systems
 - setUsystemUI.js … スタミナム設定UIスクリプト
@@ -50,10 +60,6 @@
 
 
 # なんか書いとく
-
-- ゲームスタートするにはコマンド/event entity @a[tag=player] bgc:start を入力
-
-- 有権者は/tag @s add EditCでconfig編集
 
 - 自分はよく9個もスクリプトを作ったな、、自分をほめときます。
 
