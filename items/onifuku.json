@@ -1,0 +1,18 @@
+{
+  "format_version": "1.20.30",
+  "minecraft:item": {
+    "description": {
+      "identifier": "additem:onifuku",
+      "category": "equipment"
+    },
+    "components": {
+      "minecraft:icon": {
+        "texture": "onifuk"
+      },
+      "minecraft:render_offsets": "armor",
+      "minecraft:wearable": {
+        "slot": "slot.armor.chest"
+      }
+    }
+  }
+}
