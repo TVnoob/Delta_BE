@@ -63,8 +63,15 @@
 - 1.21.90に伴いbeta-APIがbeta-2.1.0になるので、その場合
 - source.isOpが使用できなくなり、スクリプトの一部が機能しなくなります
 - 機能しなくなると予想されたスクリプト
-- ## rcuis群
+- loadrc.js
+- rootchestlib.js
+- autoreloadrc.js
+- rootchestkitUI.js
 - これらはアプリが来てから修正に取り掛かります。
+
+## 最後に
+
+- Create by Delta_conveyor (only developer)
 
 =======
 # Delta_BE
