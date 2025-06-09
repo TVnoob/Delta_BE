@@ -65,6 +65,8 @@ export function gamemastersystemscript(){
     }
       for (const player of playerPlayers) {
         player.addTag("nige");
+        player.runCommand("effect @s invisibility 20 1 true")
+        player.runCommand("effect @s speed 10 5 true")
       }
 
       // 鬼はアドベンチャーモードで待機
