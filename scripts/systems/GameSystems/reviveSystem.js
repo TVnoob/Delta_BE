@@ -72,7 +72,7 @@ function releaseOni() {
   for (const p of world.getPlayers()) {
     if (p.hasTag("oni")) {
       p.teleport(pos);
-      p.sendMessage("§c👹 鬼が解放されました！");
+      p.sendMessage("§c 鬼が解放されました！");
     }
   }
 }

@@ -33,3 +33,4 @@ registerRootChestLoader();
 registerRootChestLibraryUI();
 registerRootChestKitUI();
 banListSystem();
+script1runcommand();

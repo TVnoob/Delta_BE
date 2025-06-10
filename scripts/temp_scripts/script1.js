@@ -1,18 +1,13 @@
-import { world, system, ItemStack } from "@minecraft/server";
+import { world, system, ItemStack, EquipmentSlot } from "@minecraft/server";
 
-export function script1runcommand(){
-    system.runInterval(() => {
+export function script1runcommand() {
+  system.runInterval(() => {
     for (const player of world.getPlayers()) {
-        const mainHandItem = player.getComponent("minecraft:equippable")?.getEquipment("mainhand");
+      const mainHand = player.getComponent("minecraft:equippable")?.getEquipment(EquipmentSlot.Mainhand);
 
-        if (mainHandItem instanceof ItemStack) {
-        const itemId = mainHandItem.typeId;
-        const customData = mainHandItem.getComponent("<itemID>")?.data;
-
-        if (itemId === "<itemID>" && customData?.my_item === true) {
-            player.runCommand("<command>");
-        }
-        }
+      if (mainHand && mainHand.typeId === "minecraft:stick") {
+        player.runCommand("effect @s speed 1 1 true");
+      }
     }
-    },);
+  }, 5); // 1秒ごとにチェック（20tick）
 }
