@@ -55,10 +55,12 @@
 - speedEnevt.js … スタミナムイベント
 - catchedEv.js … 金棒のシステム
 - BanList.js … BanListに入っているプレイヤーは全員強制観戦
+- RandomTP.js … ランダムTPシステム
 
 ## Admin Systems
 - adminControl.js … 高権限プレイヤーUI
 - configUI.js … ゲーム設定UI（復活回数・鬼数など）
+- permissionGuard.js … 高権限所持プレイヤー関連システム
 
 ## Jail Systems
 - jailSystem.js … 捕まったプレイヤーのテレポート・復活数記録
