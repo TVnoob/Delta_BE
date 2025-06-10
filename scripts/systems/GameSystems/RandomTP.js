@@ -62,4 +62,4 @@ system.runInterval(() => {
       console.warn(`[RandomTP] ${p.name} をランダムTP: ${target.x}, ${target.y}, ${target.z}`);
     }
   }
-}, 20);
+}, );
