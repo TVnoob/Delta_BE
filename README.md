@@ -106,6 +106,12 @@
 - rootchestkitUI.js
 - これらはアプリが来てから修正に取り掛かります。
 
+## 更新ログ
+
+- V1.1　ユーザー補助機能追加
+
+- V1.0 コアシステム完成
+
 ## 最後に
 
 - Create by Delta_conveyor (only developer)
