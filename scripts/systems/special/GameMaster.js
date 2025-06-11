@@ -47,6 +47,7 @@ export function gamemastersystemscript(){
       }
 
       // プレイヤーをシャッフルして鬼を選出
+      console.warn(`🔍 所持プレイヤー数: ${players.length}, OniCount: ${totalOniCount}`);
       const shuffledPlayers = shuffleArray(players);
       const oniPlayers = shuffledPlayers.slice(0, totalOniCount);
       const playerPlayers = shuffledPlayers.slice(totalOniCount);
@@ -54,7 +55,7 @@ export function gamemastersystemscript(){
       // 鬼と逃げるプレイヤーにタグを付与
     for (const player of oniPlayers) {
       player.addTag("oni");
-      world.sendMessage(`鬼プレイヤー: ${player.name}`);
+      world.sendMessage(`鬼プレイヤー: §l§c${player.name}§r`);
 
       const userItem = new ItemStack("minecraft:stick", 1);
 
@@ -66,8 +67,8 @@ export function gamemastersystemscript(){
     }
       for (const player of playerPlayers) {
         player.addTag("nige");
-        player.runCommand("effect @s invisibility 20 1 true")
-        player.runCommand("effect @s speed 10 5 true")
+        player.runCommand("effect @s[tag=nige] invisibility 20 1 true")
+        player.runCommand("effect @s[tag=nige] speed 10 5 true")
       }
 
       // 鬼はアドベンチャーモードで待機
