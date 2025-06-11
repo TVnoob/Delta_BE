@@ -18,6 +18,8 @@ export function reviveSystem() {
     for (const p of world.getPlayers()) {
       if (!p.hasTag("oni")) {
         p.runCommand("gamemode adventure");
+        p.runCommand("effect @s invisibility 20 1 true")
+        p.runCommand("effect @s speed 10 5 true")
         reviveTimers.set(p.name, 0);
         p.addLevels(20);
       }

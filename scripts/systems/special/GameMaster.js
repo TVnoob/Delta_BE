@@ -54,6 +54,7 @@ export function gamemastersystemscript(){
       // 鬼と逃げるプレイヤーにタグを付与
     for (const player of oniPlayers) {
       player.addTag("oni");
+      world.sendMessage(`鬼プレイヤー: ${player.name}`);
 
       const userItem = new ItemStack("minecraft:stick", 1);
 
