@@ -21,7 +21,7 @@ export function reviveSystem() {
         p.runCommand("gamemode adventure");
         reviveTimers.set(p.name, 0);
         p.addLevels(20);
-        randomTeleportPlayer(player);
+        randomTeleportPlayer(p);
       }
     }
   });
