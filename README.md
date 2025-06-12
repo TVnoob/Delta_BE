@@ -63,6 +63,7 @@
 - catchedEv.js … 金棒のシステム
 - BanList.js … BanListに入っているプレイヤーは全員強制観戦
 - RandomTP.js … ランダムTPシステム
+- startcountdownonlysystem.js … reviveSystem.jsの機能の一部を隔離させた
 
 ## Admin Systems
 - adminControl.js … 高権限プレイヤーUI
