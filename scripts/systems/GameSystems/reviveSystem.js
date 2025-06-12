@@ -1,5 +1,6 @@
 // scripts/systems/reviveSystem.js
 import { system, world } from "@minecraft/server";
+import { randomTeleportPlayer } from "./RandomTP.js";
 
 const REVIVE_DURATION_TICKS = 20 * 20; // 20秒
 const REVIVE_LIMIT_KEY = "revive_limit";
@@ -20,7 +21,7 @@ export function reviveSystem() {
         p.runCommand("gamemode adventure");
         reviveTimers.set(p.name, 0);
         p.addLevels(20);
-        // ここにexportされてるランダムTPトリガーを追加
+        randomTeleportPlayer(player);
       }
     }
   });
@@ -54,7 +55,7 @@ export function reviveSystem() {
         player.sendMessage("§a✅ 復活しました。");
         player.runCommand("effect @s[tag=nige] invisibility 20 1 true")
         player.runCommand("effect @s[tag=nige] speed 10 5 true")
-        // ここにランダムTPトリガー
+        randomTeleportPlayer(player);
 
         // 鬼の解放
         if (initialPhase && reviveTimers.size === 0) {
