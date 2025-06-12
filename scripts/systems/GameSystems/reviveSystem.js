@@ -8,7 +8,7 @@ const CATCH_COUNT_KEY = "player_catch_counts";
 const JAIL_POS_KEY = "jail_positions";
 
 const reviveTimers = new Map();
-let initialPhase = true;
+let initialPhase = false;
 
 export function reviveSystem() {
   system.afterEvents.scriptEventReceive.subscribe(e => {
@@ -18,10 +18,12 @@ export function reviveSystem() {
 
     for (const p of world.getPlayers()) {
       if (!p.hasTag("oni")) {
+        console.warn(`[ReviveSystem] ランダムTP対象: ${p.name}`);
         p.runCommand("gamemode adventure");
-        reviveTimers.set(p.name, 0);
         p.addLevels(20);
         randomTeleportPlayer(p);
+      }else {
+      console.warn(`[ReviveSystem] 鬼のためTPスキップ: ${p.name}`);
       }
     }
   });
@@ -35,8 +37,7 @@ export function reviveSystem() {
 
     for (const player of world.getPlayers()) {
       const name = player.name;
-      const eligible = !player.hasTag("oni") &&
-        ((initialPhase && reviveTimers.has(name)) || (!initialPhase && player.hasTag("injail")));
+      const eligible = !player.hasTag("oni") && player.hasTag("injail");
       if (!eligible) continue;
 
       if ((catchMap[name] || 0) > reviveLimit) continue;
