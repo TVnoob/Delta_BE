@@ -1,6 +1,7 @@
 // scripts/systems/special/GameMaster.js
 import { system, world, ItemStack } from "@minecraft/server";
 import { resetAllTimerMap } from "./autoreloadrc.js";
+import { resetCatchCounts } from "./jailSystem.js"
 
 const CREATORS = ["SCPzaidann 1958","Reiya4384"];
 const ADMIN_LIST_KEY = "admin_list";
@@ -15,6 +16,7 @@ export function gamemastersystemscript(){
     const player = event.player;
 
     if (id === "bgc:start") {
+    resetCatchCounts();
     try {
       const players = world.getPlayers();
       for (const player of players) {
@@ -54,8 +56,9 @@ export function gamemastersystemscript(){
 
       // 鬼と逃げるプレイヤーにタグを付与
     for (const player of oniPlayers) {
+      player.runCommand("xp -1000L @a");
       player.addTag("oni");
-      world.sendMessage(`鬼プレイヤー: §l§c${player.name}§r`);
+      world.sendMessage(`鬼: §l§c${player.name}§r`);
 
       const userItem = new ItemStack("minecraft:stick", 1);
 
@@ -136,6 +139,8 @@ export function gamemastersystemscript(){
   
       // ✅ ロビーにTP
       if (lobby && typeof lobby.x === "number") {
+        player.runCommand("gamemode 2");
+        player.runCommand("xp -1000L");
         player.teleport(lobby);
         player.sendMessage("§a🏁 ロビーに戻されました");
       }

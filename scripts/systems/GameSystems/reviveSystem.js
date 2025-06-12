@@ -1,6 +1,7 @@
 // scripts/systems/reviveSystem.js
 import { system, world } from "@minecraft/server";
 import { randomTeleportPlayer } from "./RandomTP.js";
+import { startcountdownonlysystem } from "./startcountdownonlysystem.js"
 
 const REVIVE_DURATION_TICKS = 20 * 20; // 20秒
 const REVIVE_LIMIT_KEY = "revive_limit";
@@ -8,6 +9,7 @@ const CATCH_COUNT_KEY = "player_catch_counts";
 const JAIL_POS_KEY = "jail_positions";
 
 const reviveTimers = new Map();
+
 let initialPhase = false;
 
 export function reviveSystem() {
@@ -20,8 +22,8 @@ export function reviveSystem() {
       if (!p.hasTag("oni")) {
         console.warn(`[ReviveSystem] ランダムTP対象: ${p.name}`);
         p.runCommand("gamemode adventure");
-        reviveTimers.set(p.name, 0);
         p.addLevels(20);
+        startcountdownonlysystem();
         randomTeleportPlayer(p);
       } else {
         console.warn(`[ReviveSystem] 鬼のためTPスキップ: ${p.name}`);
@@ -31,6 +33,7 @@ export function reviveSystem() {
 
 
   system.runInterval(() => {
+
     const reviveLimit = typeof world.getDynamicProperty(REVIVE_LIMIT_KEY) === "number"
       ? world.getDynamicProperty(REVIVE_LIMIT_KEY)
       : 3;
@@ -64,19 +67,4 @@ export function reviveSystem() {
       }
     }
   }, 1);
-}
-
-function releaseOni() {
-  const config = JSON.parse(world.getDynamicProperty("config_data") ?? "{}");
-  const pos = config.oniSpawn;
-  if (!pos) {
-    console.warn("⚠️ oniSpawn の設定がありません");
-    return;
-  }
-  for (const p of world.getPlayers()) {
-    if (p.hasTag("oni")) {
-      p.teleport(pos);
-      p.sendMessage("§c 鬼が解放されました！");
-    }
-  }
 }

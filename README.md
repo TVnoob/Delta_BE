@@ -70,7 +70,7 @@
 - permissionGuard.js … 高権限所持プレイヤー関連システム
 
 ## Jail Systems
-- jailSystem.js … 捕まったプレイヤーのテレポート・復活数記録
+- (jailSystem.js) … 捕まったプレイヤーのテレポート・復活数記録
 
 ## Utilitys
 - antiEscapeSystem.js … 境界越え・下限Y対策(broken)
@@ -90,7 +90,7 @@
 - (loadrc.js) … RootChestCreateKitから統合、rootchestを生成できる
 
 ## special
-
+- jailSystem.js
 - GameMaster.js
 - autoreloadrc.js
 - loadrc.js

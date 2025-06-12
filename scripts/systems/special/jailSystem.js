@@ -61,5 +61,5 @@ export function jailSystem() {
 }
 
 export function resetCatchCounts() {
-  world.setDynamicProperty(PLAYER_CATCH_COUNT_KEY, "{}");
+  world.setDynamicProperty(PLAYER_CATCH_COUNT_KEY, JSON.stringify({}));
 }
