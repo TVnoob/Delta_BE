@@ -4,6 +4,7 @@ import { ModalFormData } from "@minecraft/server-ui";
 
 const BANLIST_KEY = "ban_list";
 const CREATORS = ["SCPzaidann 1958", "Reiya4384"]; // 保護アカウント
+const TERRORIST = ["おこそ"];
 
 export function banListSystem() {
   system.runInterval(() => {
@@ -49,8 +50,20 @@ function showBanListUI(player) {
     const dropdownSel = res.formValues[2]; // 今回は使用しない
 
     const banSet = new Set(getBanList());
-    if (toAdd) banSet.add(toAdd);
-    if (toRemove && !CREATORS.includes(toRemove)) banSet.delete(toRemove);
+
+    // 追加制限
+    if (toAdd && !CREATORS.includes(toAdd) && toAdd !== "TERRORIST") {
+      banSet.add(toAdd);
+    } else if (CREATORS.includes(toAdd) || toAdd === "TERRORIST") {
+      player.sendMessage("§cこの行動は許可されてません");
+    }
+
+    // 削除制限
+    if (toRemove && !CREATORS.includes(toRemove) && toRemove !== "TERRORIST") {
+      banSet.delete(toRemove);
+    } else if (CREATORS.includes(toRemove) || toRemove === "TERRORIST") {
+      player.sendMessage("§cこの行動は許可されてません");
+    }
 
     const newList = Array.from(banSet);
     world.setDynamicProperty(BANLIST_KEY, JSON.stringify(newList));
