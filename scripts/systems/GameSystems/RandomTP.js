@@ -34,32 +34,14 @@ export function thisistruerandomTP() {
     }
   });
 }
-
-// 🎯 jail1 周辺のプレイヤーをランダムTP（1秒毎）
-system.runInterval(() => {
-  if (teleportPoints.length === 0) return;
-
-  const raw = world.getDynamicProperty(JAIL_POS_KEY) ?? "{}";
-  let jailData;
-  try {
-    jailData = JSON.parse(raw);
-  } catch {
+// 呼び出し式トリガーに対応させたランダムTP
+export function randomTeleportPlayer(player) {
+  if (teleportPoints.length === 0) {
+    console.warn(`[RandomTP] ⚠️ TP先が登録されていません。プレイヤー: ${player.name}`);
     return;
   }
 
-  const jail1 = jailData?.jail1;
-  if (!jail1) return;
-
-  for (const p of world.getPlayers()) {
-    const loc = p.location;
-    const dx = loc.x - jail1.x;
-    const dy = loc.y - jail1.y;
-    const dz = loc.z - jail1.z;
-
-    if (Math.abs(dx) <= 1 && Math.abs(dy) <= 1 && Math.abs(dz) <= 1) {
-      const target = teleportPoints[Math.floor(Math.random() * teleportPoints.length)];
-      p.teleport(target);
-      console.warn(`[RandomTP] ${p.name} をランダムTP: ${target.x}, ${target.y}, ${target.z}`);
-    }
-  }
-}, );
+  const target = teleportPoints[Math.floor(Math.random() * teleportPoints.length)];
+  player.teleport(target);
+  console.warn(`[RandomTP] ${player.name} をランダムTP: ${target.x}, ${target.y}, ${target.z}`);
+}
