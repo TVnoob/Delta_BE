@@ -47,7 +47,7 @@ export function jailSystem() {
           player.runCommand("gamemode spectator");
           world.sendMessage(`§e${playerName}は、もう復活できないようだ...`);
         } else {
-          player.sendMessage("§c 捕まりました。 復活に備えてください");
+          player.sendMessage("§c 捕まりました。 20秒後に復活します");
         }
 
         console.warn(`[JAIL] ${playerName} を牢屋1に移動し、catched → injail`);

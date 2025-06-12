@@ -20,13 +20,15 @@ export function reviveSystem() {
       if (!p.hasTag("oni")) {
         console.warn(`[ReviveSystem] ランダムTP対象: ${p.name}`);
         p.runCommand("gamemode adventure");
+        reviveTimers.set(p.name, 0);
         p.addLevels(20);
         randomTeleportPlayer(p);
-      }else {
-      console.warn(`[ReviveSystem] 鬼のためTPスキップ: ${p.name}`);
+      } else {
+        console.warn(`[ReviveSystem] 鬼のためTPスキップ: ${p.name}`);
       }
     }
   });
+
 
   system.runInterval(() => {
     const reviveLimit = typeof world.getDynamicProperty(REVIVE_LIMIT_KEY) === "number"
@@ -39,9 +41,11 @@ export function reviveSystem() {
       const name = player.name;
       const eligible = !player.hasTag("oni") && player.hasTag("injail");
       if (!eligible) continue;
-
+      if (!reviveTimers.has(name)) {
+      player.addLevels(20);
+      reviveTimers.set(name, 0);
+      }
       if ((catchMap[name] || 0) > reviveLimit) continue;
-
       const ticks = (reviveTimers.get(name) || 0) + 1;
       reviveTimers.set(name, ticks);
       if (ticks % 20 === 0) {
@@ -57,12 +61,6 @@ export function reviveSystem() {
         player.runCommand("effect @s[tag=nige] invisibility 20 1 true")
         player.runCommand("effect @s[tag=nige] speed 10 5 true")
         randomTeleportPlayer(player);
-
-        // 鬼の解放
-        if (initialPhase && reviveTimers.size === 0) {
-          releaseOni();
-          initialPhase = false;
-        }
       }
     }
   }, 1);
