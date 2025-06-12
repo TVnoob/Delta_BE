@@ -230,3 +230,4 @@ export function gamemastersystemscript(){
     return arr;
   }
 }
+)}
