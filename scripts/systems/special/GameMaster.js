@@ -114,46 +114,55 @@ export function gamemastersystemscript(){
       // ゲーム状態を保存
       world.setDynamicProperty(GAME_STATE_KEY, JSON.stringify({ started: true }));
 
-    } else if (id === "bgc:end") {
-      if (!gameStarted) return; // ゲームが開始されていない場合は無視
-      gameStarted = false;
+} else if (id === "bgc:end") {
+  if (!gameStarted) return;
+  gameStarted = false;
 
-      // ゲーム終了時の処理
-      const players = world.getPlayers();
-      const adminList = getAdminList();
+  const players = world.getPlayers();
+  const adminList = getAdminList();
 
-      for (const player of players) {
-        // タグとインベントリをクリア
-        const tags = player.getTags();
-        for (const tag of tags) {
-          player.removeTag(tag);
-        }
-        // インベントリクリア（推奨：APIベース）
-        const container = player.getComponent("minecraft:inventory")?.container;
-        if (container) {
-          for (let i = 0; i < container.size; i++) {
-            container.setItem(i, undefined);
-          }
-        }
+  // ✅ ロビー座標の取得（ループの外）
+  const configRaw = world.getDynamicProperty("config_data");
+  let lobby = null;
+  try {
+    const config = JSON.parse(configRaw ?? "{}");
+    lobby = config.lobby;
+  } catch (e) {
+    console.warn("⚠️ config_data 読み込み失敗:", e);
+  }
 
-        // アイテムを付与
-      const inv = player.getComponent("minecraft:inventory")?.container;
-      const adminList = getAdminList();
-      if (adminList.includes(player.name)) {
-        const userItem = new ItemStack("additem:setusystem", 1)
-        const adminItem = new ItemStack("additem:verified_admin", 1);
-        inv.setItem(0, userItem)
-        inv.setItem(1, adminItem);
-      } else {
-        const userItem = new ItemStack("additem:setusystem", 1);
-        inv.setItem(0, userItem);
-      }
-      }
-
-      // ゲーム状態をリセット
-      world.setDynamicProperty(GAME_STATE_KEY, JSON.stringify({ started: false }));
+  for (const player of players) {
+    // タグとインベントリをクリア
+    const tags = player.getTags();
+    for (const tag of tags) {
+      player.removeTag(tag);
     }
-  });
+
+    const container = player.getComponent("minecraft:inventory")?.container;
+    if (container) {
+      for (let i = 0; i < container.size; i++) {
+        container.setItem(i, undefined);
+      }
+    }
+
+    // ✅ ロビーにTP
+    if (lobby && typeof lobby.x === "number") {
+      player.teleport(lobby);
+      player.sendMessage("§a🏁 ロビーに戻されました");
+    }
+
+    // ✅ アイテム付与
+    const inv = player.getComponent("minecraft:inventory")?.container;
+    if (adminList.includes(player.name)) {
+      inv.setItem(0, new ItemStack("additem:setusystem", 1));
+      inv.setItem(1, new ItemStack("additem:verified_admin", 1));
+    } else {
+      inv.setItem(0, new ItemStack("additem:setusystem", 1));
+    }
+  }
+
+  world.setDynamicProperty(GAME_STATE_KEY, JSON.stringify({ started: false }));
+}
 
   // プレイヤーがワールドに参加したときの処理
   world.afterEvents.playerSpawn.subscribe((event) => {
