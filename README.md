@@ -124,9 +124,9 @@
 
 - バニラアイテムである棒に右クリックで発動するイベントは、クールダウンを設けることが複雑になるのもあり、希望がなければ基本追加しない予定です。
 
-- Create by Delta_conveyor (only developer)
+- Create by Delta_conveyor (The only developer)
 
 =======
 # Delta_BE
-testrepository
+myaddon_a_repository
 >>>>>>> 430ded9f57c0f28daf5567af67e64055c68bb104
