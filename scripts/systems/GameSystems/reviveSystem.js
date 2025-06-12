@@ -51,6 +51,9 @@ export function reviveSystem() {
         player.removeTag("injail");
         reviveTimers.delete(name);
         player.sendMessage("§a✅ 復活しました。");
+        player.runCommand("effect @s[tag=nige] invisibility 20 1 true")
+        player.runCommand("effect @s[tag=nige] speed 10 5 true")
+        // ここにランダムTPトリガー
 
         // 鬼の解放
         if (initialPhase && reviveTimers.size === 0) {
