@@ -1,5 +1,9 @@
 <<<<<<< HEAD
 
+# プロジェクト状態
+- 現在、このプロジェクトが改良作業中なので、正常に作動しない可能性が高いです。
+- 作業完了予定:今日の21時
+
 # 注意!!!
 
 - クリエイター機能項目を全部ONにしてください。
@@ -51,8 +55,9 @@
 
 - これでもまだわからないことがあったらデルタコンベアーに聞いてください。
 
-# スクリプト一覧(計18個、動的スクリプト17個)
-
+# スクリプト一覧(計19個、動的スクリプト17個)
+- [adminlist] → ハードコード:CREATORS
+- [banlist] → ハードコード:TERRORIST
 - main.js … スクリプトファイル証明
 
 ## Game Systems
@@ -61,40 +66,41 @@
 - reviveSystem.js … 捕まり後の20秒処理・復活or観戦
 - speedEnevt.js … スタミナムイベント
 - catchedEv.js … 金棒のシステム
-- BanList.js … BanListに入っているプレイヤーは全員強制観戦
+- (BanList.js) … BanListに入っているプレイヤーは全員強制観戦[adminlist,banlist]
 - RandomTP.js … ランダムTPシステム
 - startcountdownonlysystem.js … reviveSystem.jsの機能の一部を隔離させた
 
 ## Admin Systems
-- adminControl.js … 高権限プレイヤーUI
-- configUI.js … ゲーム設定UI（復活回数・鬼数など）
-- permissionGuard.js … 高権限所持プレイヤー関連システム
+- adminControl.js … 高権限プレイヤーUI[adminlist]
+- configUI.js … ゲーム設定UI(復活回数・鬼数など)[adminlist]
+- permissionGuard.js … 高権限所持プレイヤー関連システム[adminlist]
 
 ## Jail Systems
 - (jailSystem.js) … 捕まったプレイヤーのテレポート・復活数記録
 
 ## Utilitys
 - antiEscapeSystem.js … 境界越え・下限Y対策(broken)
-  (このスクリプトのは需要が無くなってきているので、将来的に削除される可能性が高いです)
+  (未使用、いつか削除しときます)
 
 ## User Systems
-- setUsystemUI.js … スタミナム設定UIスクリプト
+- setUsystemUI.js … スタミナム設定UIスクリプト[adminlist]
 
 ## rcuis
 
-- rootchestkitUI.js … RootChestCreateKitから統合、rootchestを作成
+- rootchestkitUI.js … RootChestCreateKitから統合、rootchestを作成[ops]
 
-- rootchestlib.js … RootChestCreateKitから統合、rootchestIDを管理
+- rootchestlib.js … RootChestCreateKitから統合、rootchestIDを管理[ops]
 
-- (autoreloadrc.js) … RootChestCreateKitから統合、rootchestを定期的に再生成
+- (autoreloadrc.js) … RootChestCreateKitから統合、rootchestを定期的に再生成[ops]
 
-- (loadrc.js) … RootChestCreateKitから統合、rootchestを生成できる
+- (loadrc.js) … RootChestCreateKitから統合、rootchestを生成できる[ops]
 
 ## special
-- jailSystem.js
-- GameMaster.js
-- autoreloadrc.js
-- loadrc.js
+- banlist(export)
+- jailSystem.js(export)
+- GameMaster.js(import,BanList + jailSystem + autoreloadrc)
+- autoreloadrc.js(export)
+- loadrc.js(import,autoreloadrc)
 
 - 説明: これらは互いにスクリプトをimportしあってるので別にくくりました
 
