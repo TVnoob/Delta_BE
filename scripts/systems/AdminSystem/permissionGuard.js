@@ -19,7 +19,6 @@ export function systemscript2() {
 
         if (item.typeId === "additem:verified_admin" && !admins.includes(player.name)) {
           container.setItem(i, undefined);
-          player.sendMessage("§c⛔ このアイテムはあなたには許可されていません。");
         }
       }
     }
