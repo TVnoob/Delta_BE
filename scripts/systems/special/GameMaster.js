@@ -2,8 +2,8 @@
 import { system, world, ItemStack } from "@minecraft/server";
 import { resetAllTimerMap } from "./autoreloadrc.js";
 import { resetCatchCounts } from "./jailSystem.js"
-import { YougetOutTheGame, TERRORIST } from "./BanList.js"
-import { CREATORS, ADMIN_LIST_KEY, JAIL_POS_KEY, GAME_STATE_KEY } from "../consts.js";
+import { YougetOutTheGame } from "./BanList.js"
+import { CREATORS, ADMIN_LIST_KEY, JAIL_POS_KEY, GAME_STATE_KEY, TERRORIST } from "../consts.js";
 
 const banList = YougetOutTheGame();
 
