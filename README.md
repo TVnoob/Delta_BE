@@ -55,7 +55,7 @@
 
 - これでもまだわからないことがあったらデルタコンベアーに聞いてください。
 
-# スクリプト一覧(計18個、動的スクリプト16個)
+# スクリプト一覧(計19個、動的スクリプト17個)
 - [adminlist] → ハードコード:CREATORS
 - [banlist] → ハードコード:TERRORIST
 - main.js … スクリプトファイル証明
@@ -80,7 +80,7 @@
 
 ## Utilitys
 - antiEscapeSystem.js … 境界越え・下限Y対策(broken)
-  (このスクリプトのは需要が無くなってきているので、将来的に削除される可能性が高いです)
+  (未使用、いつか削除しときます)
 
 ## User Systems
 - setUsystemUI.js … スタミナム設定UIスクリプト[adminlist]
