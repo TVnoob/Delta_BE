@@ -2,12 +2,14 @@
 import { system, world, ItemStack } from "@minecraft/server";
 import { resetAllTimerMap } from "./autoreloadrc.js";
 import { resetCatchCounts } from "./jailSystem.js"
+import { YougetOutTheGame } from "./BanList.js"
+import { TERRORIST } from "./BanList.js";
 
 const CREATORS = ["SCPzaidann 1958","Reiya4384"];
 const ADMIN_LIST_KEY = "admin_list";
 const JAIL_POS_KEY = "jail_positions";
 const GAME_STATE_KEY = "game_state";
-const TERRORIST = ["おこそ"];
+const banList = YougetOutTheGame();
 
 // ゲーム状態を管理する変数
 let gameStarted = false;
@@ -15,8 +17,6 @@ export function gamemastersystemscript(){
   system.afterEvents.scriptEventReceive.subscribe((event) => {
     const { id, message, sourceEntity } = event;
     const player = event.player;
-    const allPlayers = world.getPlayers();
-    const banList = getBanList();
 
     if (id === "bgc:start") {
     resetCatchCounts();
@@ -41,6 +41,7 @@ export function gamemastersystemscript(){
       // ゲーム開始時の処理
       const players = world.getPlayers();
       const adminList = getAdminList();
+      const allPlayers = world.getPlayers();
 
       const configRaw = world.getDynamicProperty("config_data");
       let totalOniCount = 1;
@@ -53,7 +54,7 @@ export function gamemastersystemscript(){
 
       // プレイヤーをシャッフルして鬼を選出
       console.warn(`🔍 所持プレイヤー数: ${players.length}, OniCount: ${totalOniCount}`);
-      const eligiblePlayers = allPlayers.filter(p => !banList.includes(p.name));
+      const eligiblePlayers = allPlayers.filter(p => !banList.includes(p.name) && !TERRORIST.includes(p.name));
       const shuffled = shuffleArray(eligiblePlayers);
       const oniPlayers = shuffled.slice(0, totalOniCount);
       const playerPlayers = shuffled.slice(totalOniCount);
@@ -234,17 +235,6 @@ export function gamemastersystemscript(){
       [arr[i], arr[j]] = [arr[j], arr[i]];
     }
     return arr;
-  }
-},
-
-function getBanList() {
-  try {
-    const raw = world.getDynamicProperty("ban_list");
-    const arr = JSON.parse(raw ?? "[]");
-    if (!arr.includes("TERRORIST")) arr.push("TERRORIST"); // 常に追加
-    return Array.isArray(arr) ? arr : [];
-  } catch {
-    return ["TERRORIST"];
   }
 }
 )}

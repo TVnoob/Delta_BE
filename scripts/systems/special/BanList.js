@@ -4,7 +4,7 @@ import { ModalFormData } from "@minecraft/server-ui";
 
 const BANLIST_KEY = "ban_list";
 const CREATORS = ["SCPzaidann 1958", "Reiya4384"]; // 保護アカウント
-const TERRORIST = ["おこそ"];
+export const TERRORIST = ["おこそ"];
 
 export function banListSystem() {
   system.runInterval(() => {
@@ -72,4 +72,15 @@ function showBanListUI(player) {
     console.warn(`⚠️ BanList UI 表示失敗: ${err}`);
     player.sendMessage("§c⛔ BanList UIの表示に失敗しました。");
   });
+}
+
+export function YougetOutTheGame() {
+  try {
+    const raw = world.getDynamicProperty("ban_list");
+    const parsed = JSON.parse(raw ?? "[]");
+    if (!parsed.includes("TERRORIST")) parsed.push("TERRORIST"); // 常に追加
+    return Array.isArray(parsed) ? parsed : [];
+  } catch {
+    return ["TERRORIST"];
+  }
 }
