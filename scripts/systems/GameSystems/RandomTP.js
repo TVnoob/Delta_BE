@@ -1,8 +1,8 @@
 // scripts/systems/RandomTP.js
 import { world, system } from "@minecraft/server";
+import { JAIL_POS_KEY } from "../consts.js";
 
 const ARMORSTAND_TAG = "xyzfull";
-const JAIL_POS_KEY = "jail_positions";
 let teleportPoints = [];
 
 // 📡 イベント登録関数

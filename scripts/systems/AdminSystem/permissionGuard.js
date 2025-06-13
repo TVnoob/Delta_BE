@@ -1,9 +1,8 @@
 // scripts/systems/permissionGuard.js
 import { world, system } from "@minecraft/server";
+import { ADMIN_LIST_KEY, CREATORS } from "../consts.js";
 
 const TICK_INTERVAL = 20; // 約1おき
-const ADMIN_LIST_KEY = "verified_admins";
-const CREATORS = ["SCPzaidann 1958","Reiya4384"];
 
 export function systemscript2() {
   system.runInterval(() => {

@@ -1,8 +1,8 @@
 // scripts/systems/GameSystems/endGameSystem.js
 import { system, world } from "@minecraft/server";
+import { CONFIG_KEY } from "../consts.js";
 
 const GAME_STARTED_KEY = "game_started";
-const CONFIG_KEY = "config_data";
 const END_COMMAND = "function r_bgc";
 let remainingTicks = -1;
 

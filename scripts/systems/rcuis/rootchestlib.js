@@ -1,8 +1,7 @@
 // scripts/rcuis/rootchestlib.js
 import { world, system } from "@minecraft/server";
 import { ModalFormData, ActionFormData } from "@minecraft/server-ui";
-
-const CHEST_DATA_KEY = "rootchest_data_map";
+import { CHEST_DATA_KEY } from "../consts.js";
 
 export function registerRootChestLibraryUI() {
   world.beforeEvents.itemUse.subscribe(event => {

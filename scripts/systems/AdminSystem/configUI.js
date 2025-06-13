@@ -1,10 +1,7 @@
 // scripts/susyems/AdminSystem/configUI.js
 import { world, system } from "@minecraft/server";
 import { ModalFormData } from "@minecraft/server-ui";
-
-const CONFIG_KEY = "config_data";
-const ADMIN_LIST_KEY = "admin_list";
-const CREATORS = ["SCPzaidann 1958","Reiya4384"];
+import { CREATORS, CONFIG_KEY, ADMIN_LIST_KEY } from "../consts.js";
 
 // 管理者が使用する設定UI
 export function configUIHandler() {

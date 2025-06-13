@@ -1,8 +1,8 @@
 // scripts/rootchestkitUI.js
 import { world, system } from "@minecraft/server";
 import { ModalFormData } from "@minecraft/server-ui";
+import { CHEST_DATA_KEY } from "../consts.js";
 
-const CHEST_DATA_KEY = "rootchest_data_map";
 const CHEST_ID_COUNT_KEY = "rootchest_id_counter";
 
 export function registerRootChestKitUI() {

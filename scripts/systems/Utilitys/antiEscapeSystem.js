@@ -1,7 +1,7 @@
 // scripts/systems/antiEscapeSystem.js
 import { system, world } from "@minecraft/server";
+import { CONFIG_KEY } from "../consts.js";
 
-const CONFIG_KEY = "config_data";
 const BORDER_CACHE_KEY = "__border_positions";
 
 const borderPositions = new Set(); // x,zのみ記録

@@ -2,8 +2,8 @@
 import { world, system, ItemStack } from "@minecraft/server";
 import { ModalFormData } from "@minecraft/server-ui";
 import { resetAllTimerMap } from "./autoreloadrc.js";
+import { CHEST_DATA_KEY } from "../consts.js";
 
-const CHEST_DATA_KEY = "rootchest_data_map";
 const RELOAD_INTERVALS_KEY = "rootchest_reload_intervals";
 
 export function registerRootChestLoader() {

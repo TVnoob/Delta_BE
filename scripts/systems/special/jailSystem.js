@@ -1,8 +1,7 @@
 // scripts/systems/jailSystem.js
 import { world, system } from "@minecraft/server";
+import { JAIL_POS_KEY, REVIVE_LIMIT_KEY } from "../consts.js";
 
-const JAIL_POS_KEY = "jail_positions";
-const REVIVE_LIMIT_KEY = "revive_limit";
 const PLAYER_CATCH_COUNT_KEY = "player_catch_counts";
 
 export function jailSystem() {

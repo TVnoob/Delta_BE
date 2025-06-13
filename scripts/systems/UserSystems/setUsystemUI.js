@@ -1,10 +1,9 @@
 // scripts/systems/setUsystemUI.js
 import { world, system, EquipmentSlot } from "@minecraft/server";
 import { ModalFormData } from "@minecraft/server-ui";
+import { CREATORS, ADMIN_LIST_KEY } from "../consts.js";
 
 const OPTIONS = ["設定1", "設定2", "設定3"];
-const ADMIN_LIST_KEY = "verified_admins";
-const CREATORS = ["SCPzaidann 1958","Reiya4384"];
 
 export function systemscript3() {
   world.beforeEvents.itemUse.subscribe((event) => {

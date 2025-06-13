@@ -1,9 +1,9 @@
 // scripts/systems/special/BanList.js
 import { world, system } from "@minecraft/server";
 import { ModalFormData } from "@minecraft/server-ui";
+import { CREATORS } from "../consts";
 
 const BANLIST_KEY = "ban_list";
-const CREATORS = ["SCPzaidann 1958", "Reiya4384"]; // 保護アカウント
 export const TERRORIST = ["おこそ"];
 
 export function banListSystem() {

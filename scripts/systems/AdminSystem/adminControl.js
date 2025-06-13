@@ -1,11 +1,7 @@
 // scripts/systems/adminControl.js
 import { world, system } from "@minecraft/server";
 import { ModalFormData } from "@minecraft/server-ui";
-
-const CREATORS = ["SCPzaidann 1958", "Reiya4384"];
-const ADMIN_LIST_KEY = "verified_admins";
-const JAIL_POS_KEY = "jail_positions";
-const REVIVE_LIMIT_KEY = "revive_limit";
+import { CREATORS, ADMIN_LIST_KEY, JAIL_POS_KEY, REVIVE_LIMIT_KEY } from "../consts";
 
 export function systemscript1() {
   world.beforeEvents.itemUse.subscribe((event) => {

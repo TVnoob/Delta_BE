@@ -2,13 +2,9 @@
 import { system, world, ItemStack } from "@minecraft/server";
 import { resetAllTimerMap } from "./autoreloadrc.js";
 import { resetCatchCounts } from "./jailSystem.js"
-import { YougetOutTheGame } from "./BanList.js"
-import { TERRORIST } from "./BanList.js";
+import { YougetOutTheGame, TERRORIST } from "./BanList.js"
+import { CREATORS, ADMIN_LIST_KEY, JAIL_POS_KEY, GAME_STATE_KEY } from "../consts.js";
 
-const CREATORS = ["SCPzaidann 1958","Reiya4384"];
-const ADMIN_LIST_KEY = "admin_list";
-const JAIL_POS_KEY = "jail_positions";
-const GAME_STATE_KEY = "game_state";
 const banList = YougetOutTheGame();
 
 // ゲーム状態を管理する変数

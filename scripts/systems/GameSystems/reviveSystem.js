@@ -2,12 +2,11 @@
 import { system, world } from "@minecraft/server";
 import { randomTeleportPlayer } from "./RandomTP.js";
 import { startcountdownonlysystem } from "./startcountdownonlysystem.js"
+import { JAIL_POS_KEY, REVIVE_LIMIT_KEY } from "../consts.js";
+
 
 const REVIVE_DURATION_TICKS = 20 * 20; // 20秒
-const REVIVE_LIMIT_KEY = "revive_limit";
 const CATCH_COUNT_KEY = "player_catch_counts";
-const JAIL_POS_KEY = "jail_positions";
-
 const reviveTimers = new Map();
 
 let initialPhase = false;

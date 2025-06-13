@@ -20,7 +20,7 @@
 
 - 強制終了:/scriptevent bgc:end
 
-- BanListUIを開く:/tag @s add OBL(現在稼働不可)
+- BanListUIを開く:/tag @s add OBL
 
 - ハードコードにより、有権者には
 - SCPzaidann 1958 (開発者、Delta_convetor)
@@ -55,10 +55,14 @@
 
 - これでもまだわからないことがあったらデルタコンベアーに聞いてください。
 
+## BanList(強制登録済み)
+- おこそ
+
 # スクリプト一覧(計19個、動的スクリプト17個)
 - [adminlist] → ハードコード:CREATORS
 - [banlist] → ハードコード:TERRORIST
 - main.js … スクリプトファイル証明
+- consts.js … const宣言コードを集合させたconfigファイル
 
 ## Game Systems
 - (GameMaster.js) … ゲーム開始・終了・タグ管理・アイテム配布
@@ -121,7 +125,7 @@
 
 ## 更新ログ
 
-- V1.2 牢屋の機能を復元(6/12.11:54時点でのalpha版_バグが存在する可能性あり)
+- V1.2 牢屋の機能を復元
 
 - V1.1 ユーザー補助機能追加
 
