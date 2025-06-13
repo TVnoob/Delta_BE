@@ -55,7 +55,7 @@
 
 - これでもまだわからないことがあったらデルタコンベアーに聞いてください。
 
-# スクリプト一覧(計18個、動的スクリプト17個)
+# スクリプト一覧(計18個、動的スクリプト16個)
 - [adminlist] → ハードコード:CREATORS
 - [banlist] → ハードコード:TERRORIST
 - main.js … スクリプトファイル証明
@@ -66,7 +66,7 @@
 - reviveSystem.js … 捕まり後の20秒処理・復活or観戦
 - speedEnevt.js … スタミナムイベント
 - catchedEv.js … 金棒のシステム
-- BanList.js … BanListに入っているプレイヤーは全員強制観戦[adminlist,banlist]
+- (BanList.js) … BanListに入っているプレイヤーは全員強制観戦[adminlist,banlist]
 - RandomTP.js … ランダムTPシステム
 - startcountdownonlysystem.js … reviveSystem.jsの機能の一部を隔離させた
 
@@ -98,9 +98,9 @@
 ## special
 - banlist(export)
 - jailSystem.js(export)
-- GameMaster.js(import,banlist + jailSystem)
+- GameMaster.js(import,BanList + jailSystem + autoreloadrc)
 - autoreloadrc.js(export)
-- loadrc.js(import)
+- loadrc.js(import,autoreloadrc)
 
 - 説明: これらは互いにスクリプトをimportしあってるので別にくくりました
 
