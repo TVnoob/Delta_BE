@@ -1,5 +1,5 @@
 // scripts/systems/special/GameMaster.js
-import { system, world, ItemStack } from "@minecraft/server";
+import { system, world, ItemStack, EquipmentSlot } from "@minecraft/server";
 import { resetAllTimerMap } from "./autoreloadrc.js";
 import { resetCatchCounts } from "./jailSystem.js"
 import { getAllBanList } from "./BanList.js";
@@ -21,6 +21,7 @@ export function gamemastersystemscript(){
       for (const player of players) {
         const inv = player.getComponent("minecraft:inventory")?.container;
         if (inv) {
+          player.runCommand("clear @s");
           for (let i = 0; i < inv.size; i++) {
             inv.setItem(i, undefined);
           }
@@ -37,7 +38,6 @@ export function gamemastersystemscript(){
       // ゲーム開始時の処理
       const players = world.getPlayers();
       const adminList = getAdminList();
-
 
       const configRaw = world.getDynamicProperty("config_data");
       let totalOniCount = 1;
@@ -66,9 +66,25 @@ export function gamemastersystemscript(){
 
       // 鬼と逃げるプレイヤーにタグを付与
     for (const player of oniPlayers) {
+      const chest = new ItemStack("minecraft:leather_chestplate", 1);
       player.runCommand("xp -1000L @a");
       player.addTag("oni");
+      player.runCommand('replaceitem entity @s slot.armor.head 0 minecraft:netherite_helmet 1 0 {"item_lock":{"mode":"lock_in_slot"}}');
+      player.runCommand(`replaceitem entity @s slot.armor.chest 0 minecraft:netherite_chestplate 1 0 {"item_lock":{"mode":"lock_in_slot"}}`);
+      player.runCommand('replaceitem entity @s slot.armor.legs 0 minecraft:netherite_leggings 1 0 {"item_lock":{"mode":"lock_in_slot"}}');
+      player.runCommand('replaceitem entity @s slot.armor.feet 0 minecraft:netherite_boots 1 0 {"item_lock":{"mode":"lock_in_slot"}}');
       world.sendMessage(`鬼: §l§c${player.name}§r`);
+
+      // ✅ ロビー座標の取得
+      const configRaw = world.getDynamicProperty("config_data");
+      let lobby = null;
+      try {
+        const config = JSON.parse(configRaw ?? "{}");
+        lobby = config.lobby;
+      } catch (e) {
+        console.warn("⚠️ config_data 読み込み失敗:", e);
+      }
+      player.teleport(lobby);
 
       const userItem = new ItemStack("minecraft:stick", 1);
 
@@ -76,6 +92,7 @@ export function gamemastersystemscript(){
       if (inventoryComp) {
         const inv = inventoryComp.container;
         inv.setItem(0, userItem);
+        player.runCommand('replaceitem entity @s slot.hotbar 0 minecraft:stick 1 0 {"item_lock":{"mode":"lock_in_slot"}}');
       }
     }
       for (const player of playerPlayers) {
@@ -122,17 +139,7 @@ export function gamemastersystemscript(){
   
     const players = world.getPlayers();
     const adminList = getAdminList();
-  
-    // ✅ ロビー座標の取得（ループの外）
-    const configRaw = world.getDynamicProperty("config_data");
-    let lobby = null;
-    try {
-      const config = JSON.parse(configRaw ?? "{}");
-      lobby = config.lobby;
-    } catch (e) {
-      console.warn("⚠️ config_data 読み込み失敗:", e);
-    }
-  
+
     for (const player of players) {
       // タグとインベントリをクリア
       const tags = player.getTags();
@@ -145,7 +152,19 @@ export function gamemastersystemscript(){
         for (let i = 0; i < container.size; i++) {
           container.setItem(i, undefined);
         }
+        player.runCommand("clear @s");
       }
+
+      // ✅ ロビー座標の取得
+      const configRaw = world.getDynamicProperty("config_data");
+      let lobby = null;
+      try {
+        const config = JSON.parse(configRaw ?? "{}");
+        lobby = config.lobby;
+      } catch (e) {
+        console.warn("⚠️ config_data 読み込み失敗:", e);
+      }
+      player.teleport(lobby);
   
       // ✅ ロビーにTP
       if (lobby && typeof lobby.x === "number") {
@@ -159,9 +178,11 @@ export function gamemastersystemscript(){
       const inv = player.getComponent("minecraft:inventory")?.container;
       if (adminList.includes(player.name)) {
         inv.setItem(0, new ItemStack("additem:setusystem", 1));
+        player.runCommand('replaceitem entity @s slot.hotbar 0 additem:setusystem 1 0 {"item_lock":{"mode":"lock_in_slot"}}');
         inv.setItem(1, new ItemStack("additem:verified_admin", 1));
       } else {
         inv.setItem(0, new ItemStack("additem:setusystem", 1));
+        player.runCommand('replaceitem entity @s slot.hotbar 0 additem:setusystem 1 0 {"item_lock":{"mode":"lock_in_slot"}}');
       }
     }
   

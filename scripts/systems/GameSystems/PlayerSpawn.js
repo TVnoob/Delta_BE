@@ -22,9 +22,21 @@ export function playerjoinevent01okk(){
     // "player" タグを追加
     player.addTag("player");
 
+    // ✅ ロビー座標の取得
+    const configRaw = world.getDynamicProperty("config_data");
+    let lobby = null;
+    try {
+    const config = JSON.parse(configRaw ?? "{}");
+    lobby = config.lobby;
+    } catch (e) {
+    console.warn("⚠️ config_data 読み込み失敗:", e);
+    }
+    player.teleport(lobby);
+
     // インベントリクリア
     const inv = player.getComponent("minecraft:inventory")?.container;
     if (inv) {
+        player.runCommand("clear @s");
         for (let i = 0; i < inv.size; i++) {
         inv.setItem(i, undefined);
         }
@@ -36,10 +48,12 @@ export function playerjoinevent01okk(){
         const userItem = new ItemStack("additem:setusystem", 1)
         const adminItem = new ItemStack("additem:verified_admin", 1);
         inv.setItem(0, userItem)
+        player.runCommand('replaceitem entity @s slot.hotbar 0 additem:setusystem 1 0 {"item_lock":{"mode":"lock_in_slot"}}');
         inv.setItem(1, adminItem);
     } else {
         const userItem = new ItemStack("additem:setusystem", 1);
         inv.setItem(0, userItem);
+        player.runCommand('replaceitem entity @s slot.hotbar 0 additem:setusystem 1 0 {"item_lock":{"mode":"lock_in_slot"}}');
     }
     });
 }
