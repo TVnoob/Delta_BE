@@ -1,7 +1,6 @@
 <<<<<<< HEAD
 
 # プロジェクト状態
-- BanList.jsを開発中
 
 # git commands
 
