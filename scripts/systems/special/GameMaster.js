@@ -2,10 +2,10 @@
 import { system, world, ItemStack } from "@minecraft/server";
 import { resetAllTimerMap } from "./autoreloadrc.js";
 import { resetCatchCounts } from "./jailSystem.js"
-// import { getAllBanList } from "./BanList.js";
+import { getAllBanList } from "./BanList.js";
 import { CREATORS, ADMIN_LIST_KEY, JAIL_POS_KEY, GAME_STATE_KEY, TERRORIST } from "../consts.js";
 
-// const banList = getAllBanList();
+const banList = getAllBanList();
 
 // ゲーム状態を管理する変数
 let gameStarted = false;
@@ -13,6 +13,7 @@ export function gamemastersystemscript(){
   system.afterEvents.scriptEventReceive.subscribe((event) => {
     const { id, message, sourceEntity } = event;
     const player = event.player;
+    const allPlayers = world.getPlayers();
 
     if (id === "bgc:start") {
     resetCatchCounts();
@@ -49,9 +50,19 @@ export function gamemastersystemscript(){
       }
 
       // プレイヤーをシャッフルして鬼を選出
-      const shuffledPlayers = shuffleArray(players);
-      const oniPlayers = shuffledPlayers.slice(0, totalOniCount);
-      const playerPlayers = shuffledPlayers.slice(totalOniCount);
+      console.warn(`🔍 所持プレイヤー数: ${players.length}, OniCount: ${totalOniCount}`);
+      const eligiblePlayers = allPlayers.filter(p => !banList.includes(p.name) && !TERRORIST.includes(p.name));
+      const shuffled = shuffleArray(eligiblePlayers);
+      const oniPlayers = shuffled.slice(0, totalOniCount);
+      const playerPlayers = shuffled.slice(totalOniCount);
+
+      // BanList に含まれるプレイヤーは観戦者に強制変更
+      for (const banned of allPlayers) {
+        if (banList.includes(banned.name)) {
+          banned.runCommand("gamemode spectator");
+          banned.sendMessage("§c You are bannend! get out!");
+        }
+      }
 
       // 鬼と逃げるプレイヤーにタグを付与
     for (const player of oniPlayers) {
