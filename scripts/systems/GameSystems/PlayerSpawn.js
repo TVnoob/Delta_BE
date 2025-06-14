@@ -22,9 +22,21 @@ export function playerjoinevent01okk(){
     // "player" タグを追加
     player.addTag("player");
 
+    // ✅ ロビー座標の取得
+    const configRaw = world.getDynamicProperty("config_data");
+    let lobby = null;
+    try {
+    const config = JSON.parse(configRaw ?? "{}");
+    lobby = config.lobby;
+    } catch (e) {
+    console.warn("⚠️ config_data 読み込み失敗:", e);
+    }
+    player.teleport(lobby);
+
     // インベントリクリア
     const inv = player.getComponent("minecraft:inventory")?.container;
     if (inv) {
+        player.runCommand("clear @s");
         for (let i = 0; i < inv.size; i++) {
         inv.setItem(i, undefined);
         }

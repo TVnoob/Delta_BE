@@ -8,7 +8,9 @@ let intervalId = null;
 export function startcountdownonlysystem() {
   initialPhaseMap.clear();
   for (const p of world.getPlayers()) {
+    if (!p.hasTag("oni")) {  // ← ここで鬼を除外
     initialPhaseMap.set(p.name, 20);
+  }
   }
 
   // 既存の interval を止める（多重実行防止）
