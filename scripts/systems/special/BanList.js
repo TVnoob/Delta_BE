@@ -3,7 +3,7 @@ import { world, system } from "@minecraft/server";
 import { ModalFormData } from "@minecraft/server-ui";
 import { CREATORS, TERRORIST } from "../consts";
 
-const BANLIST_KEY = "ban_list";
+export const BANLIST_KEY = "ban_list";
 
 export function banListSystem() {
   system.runInterval(() => {
@@ -21,15 +21,24 @@ export function banListSystem() {
   }, 20); // 1秒おきにチェック
 }
 
-function getBanList() {
+export function getAllBanList() {
+  const raw = world.getDynamicProperty(BANLIST_KEY);
+  let arr;
   try {
-    const raw = world.getDynamicProperty(BANLIST_KEY);
-    const arr = JSON.parse(raw ?? "[]");
-    return Array.isArray(arr) ? arr : [];
+    arr = JSON.parse(raw ?? "[]");
+    if (!Array.isArray(arr)) arr = [];
   } catch {
-    return [];
+    arr = [];
   }
+
+  for (const name of TERRORIST) {
+    if (!arr.includes(name)) arr.push(name);
+  }
+
+  return arr;
 }
+
+
 
 function showBanListUI(player) {
   const banArr = getBanList();
@@ -71,15 +80,4 @@ function showBanListUI(player) {
     console.warn(`⚠️ BanList UI 表示失敗: ${err}`);
     player.sendMessage("§c⛔ BanList UIの表示に失敗しました。");
   });
-}
-
-export function YougetOutTheGame() {
-  try {
-    const raw = world.getDynamicProperty("ban_list");
-    const parsed = JSON.parse(raw ?? "[]");
-    if (!parsed.includes("TERRORIST")) parsed.push("TERRORIST"); // 常に追加
-    return Array.isArray(parsed) ? parsed : [];
-  } catch {
-    return ["TERRORIST"];
-  }
 }

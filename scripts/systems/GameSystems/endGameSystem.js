@@ -69,7 +69,7 @@ export function endGameSystem() {
 
     // ① 全逃走者が injail → 鬼勝利
     const runners = players.filter(p => !p.hasTag("oni"));
-    if (runners.length > 0 && runners.every(p => p.hasTag("injail"))) { // ここをinjail以外にしてデバッグ
+    if (runners.length > 0 && runners.every(p => p.hasTag("othersyste"))) { // ここをinjail以外にしてデバッグ
       world.setDynamicProperty(GAME_STARTED_KEY, false);
       try {
         world.getDimension("overworld").runCommand("scriptevent bgc:end allCaught");

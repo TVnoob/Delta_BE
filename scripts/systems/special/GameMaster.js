@@ -2,10 +2,10 @@
 import { system, world, ItemStack } from "@minecraft/server";
 import { resetAllTimerMap } from "./autoreloadrc.js";
 import { resetCatchCounts } from "./jailSystem.js"
-import { YougetOutTheGame } from "./BanList.js"
+// import { getAllBanList } from "./BanList.js";
 import { CREATORS, ADMIN_LIST_KEY, JAIL_POS_KEY, GAME_STATE_KEY, TERRORIST } from "../consts.js";
 
-const banList = YougetOutTheGame();
+// const banList = getAllBanList();
 
 // ゲーム状態を管理する変数
 let gameStarted = false;
