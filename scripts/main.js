@@ -16,6 +16,7 @@ import { registerRootChestLoader } from "./systems/special/loadrc.js";
 import { startRootChestAutoReload } from "./systems/special/autoreloadrc.js";
 // import { banListSystem } from "./systems/special/BanList.js";
 import { thisistruerandomTP } from "./systems/GameSystems/RandomTP.js"
+import { playerjoinevent01okk } from "./systems/GameSystems/PlayerSpawn.js";
 
 thisistruerandomTP();
 reviveSystem();
@@ -34,3 +35,4 @@ registerRootChestLibraryUI();
 registerRootChestKitUI();
 // banListSystem();
 script1runcommand();
+playerjoinevent01okk();

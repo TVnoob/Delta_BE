@@ -104,8 +104,8 @@ export function gamemastersystemscript(){
 
       // ゲーム状態を保存
       world.setDynamicProperty(GAME_STATE_KEY, JSON.stringify({ started: true }));
-
-  } else if (id === "bgc:end") {
+    }
+   else if (id === "bgc:end") {
     if (!gameStarted) return;
     gameStarted = false;
   
@@ -156,49 +156,6 @@ export function gamemastersystemscript(){
   
     world.setDynamicProperty(GAME_STATE_KEY, JSON.stringify({ started: false }));
   }
-
-  // プレイヤーがワールドに参加したときの処理
-  world.afterEvents.playerSpawn.subscribe((event) => {
-    const player = event.player;
-    if (!player) {
-      console.warn("⛔ playerSpawnイベントにプレイヤーが含まれていません。");
-      return;
-    }
-
-    console.warn("[DEBUG] プレイヤー生成:", player.name);
-
-    // タグ削除
-    const tags = player.getTags();
-    for (const tag of tags) {
-      player.removeTag(tag);
-    }
-
-    // "player" タグを追加
-    player.addTag("player");
-
-    // インベントリクリア
-    const inv = player.getComponent("minecraft:inventory")?.container;
-    if (inv) {
-      for (let i = 0; i < inv.size; i++) {
-        inv.setItem(i, undefined);
-      }
-    }
-
-    // 管理者確認とアイテム付与
-    const adminList = getAdminList();
-    if (adminList.includes(player.name)) {
-      const userItem = new ItemStack("additem:setusystem", 1)
-      const adminItem = new ItemStack("additem:verified_admin", 1);
-      inv.setItem(0, userItem)
-      inv.setItem(1, adminItem);
-    } else {
-      const userItem = new ItemStack("additem:setusystem", 1);
-      inv.setItem(0, userItem);
-    }
-  });
-
-
-
   // 管理者リストを取得する関数
   function getAdminList() {
     try {

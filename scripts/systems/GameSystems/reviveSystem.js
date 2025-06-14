@@ -60,8 +60,8 @@ export function reviveSystem() {
         player.removeTag("injail");
         reviveTimers.delete(name);
         player.sendMessage("§a✅ 復活しました。");
-        player.runCommand("effect @s[tag=nige] invisibility 20 1 true")
-        player.runCommand("effect @s[tag=nige] speed 10 5 true")
+        player.runCommand("effect @s[tag=nige] invisibility 10 1 true")
+        player.runCommand("effect @s[tag=nige] speed 5 7 true")
         randomTeleportPlayer(player);
       }
     }

@@ -1,7 +1,7 @@
-// scripts/systems/special/BanList.js
+// scripts/systems/special/BanList.js(broken!)
 import { world, system } from "@minecraft/server";
 import { ModalFormData } from "@minecraft/server-ui";
-import { CREATORS, TERRORIST } from "../consts";
+import { CREATORS, TERRORIST } from "../consts.js";
 
 export const BANLIST_KEY = "ban_list";
 
@@ -41,7 +41,7 @@ export function getAllBanList() {
 
 
 function showBanListUI(player) {
-  const banArr = getBanList();
+  const banArr = getAllBanList();
   const options = banArr.length > 0 ? banArr : ["(現在のBanListに乗っているプレイヤー名一覧)"];
 
   const form = new ModalFormData()
@@ -57,7 +57,7 @@ function showBanListUI(player) {
     const toRemove = typeof res.formValues[1] === "string" ? res.formValues[1].trim() : "";
     const dropdownSel = res.formValues[2]; // 今回は使用しない
 
-    const banSet = new Set(getBanList());
+    const banSet = new Set(getAllBanList());
 
     // 追加制限
     if (toAdd && !CREATORS.includes(toAdd) && toAdd !== "TERRORIST") {

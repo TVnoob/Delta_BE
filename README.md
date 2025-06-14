@@ -1,8 +1,8 @@
 <<<<<<< HEAD
 
 # プロジェクト状態
-- 現在、このプロジェクトが改良作業中なので、正常に作動しない可能性が高いです。
-- 作業完了予定:今日の21時
+- 安定板_V1.2をリリース
+- 開発版と安定板を分割し、安定した環境を構築済み
 
 # 注意!!!
 
@@ -19,8 +19,6 @@
 - 有権者は/tag @s add EditCでconfig編集
 
 - 強制終了:/scriptevent bgc:end
-
-- BanListUIを開く:/tag @s add OBL
 
 - ハードコードにより、有権者には
 - SCPzaidann 1958 (開発者、Delta_convetor)
@@ -60,17 +58,16 @@
 
 # スクリプト一覧(計19個、動的スクリプト17個)
 - [adminlist] → ハードコード:CREATORS
-- [banlist] → ハードコード:TERRORIST
 - main.js … スクリプトファイル証明
 - consts.js … const宣言コードを集合させたconfigファイル
 
 ## Game Systems
+- PlayerSpawn.js … GameMaster.jsにあるコードの一部を移動させた
 - (GameMaster.js) … ゲーム開始・終了・タグ管理・アイテム配布
 - endGameSystem.js … 状態監視と勝敗判定（強制終了含む）
 - reviveSystem.js … 捕まり後の20秒処理・復活or観戦
 - speedEnevt.js … スタミナムイベント
 - catchedEv.js … 金棒のシステム
-- (BanList.js) … BanListに入っているプレイヤーは全員強制観戦[adminlist,banlist]
 - RandomTP.js … ランダムTPシステム
 - startcountdownonlysystem.js … reviveSystem.jsの機能の一部を隔離させた
 

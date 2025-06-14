@@ -27,7 +27,7 @@ export function startcountdownonlysystem() {
 
       if (remaining <= 0) {
         initialPhaseMap.delete(name);
-        p.sendMessage("§a good luck!");
+        p.sendMessage("§l§c 鬼ごっこ 開始");
       } else {
         initialPhaseMap.set(name, remaining);
       }
