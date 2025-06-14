@@ -6,4 +6,4 @@ export const REVIVE_LIMIT_KEY = "revive_limit";
 export const GAME_STATE_KEY = "game_state";
 export const CONFIG_KEY = "config_data";
 export const CHEST_DATA_KEY = "rootchest_data_map";
-export const TERRORIST = ["おこそ"];
+export const TERRORIST = ["none"];
