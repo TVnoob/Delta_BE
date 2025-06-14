@@ -5,8 +5,6 @@ import { resetCatchCounts } from "./jailSystem.js"
 import { getAllBanList } from "./BanList.js";
 import { CREATORS, ADMIN_LIST_KEY, JAIL_POS_KEY, GAME_STATE_KEY, TERRORIST } from "../consts.js";
 
-const banList = getAllBanList();
-
 // ゲーム状態を管理する変数
 let gameStarted = false;
 export function gamemastersystemscript(){
@@ -14,6 +12,7 @@ export function gamemastersystemscript(){
     const { id, message, sourceEntity } = event;
     const player = event.player;
     const allPlayers = world.getPlayers();
+    const banList = getAllBanList();
 
     if (id === "bgc:start") {
     resetCatchCounts();
@@ -59,8 +58,9 @@ export function gamemastersystemscript(){
       // BanList に含まれるプレイヤーは観戦者に強制変更
       for (const banned of allPlayers) {
         if (banList.includes(banned.name)) {
+          banned.addTag("banned");
           banned.runCommand("gamemode spectator");
-          banned.sendMessage("§c You are bannend! get out!");
+          banned.sendMessage("§c あなたはこのゲームへの参加が禁止されています");
         }
       }
 

@@ -1,8 +1,17 @@
 <<<<<<< HEAD
 
 # プロジェクト状態
-- 安定板_V1.2をリリース
-- 開発版と安定板を分割し、安定した環境を構築済み
+- BanList.jsを開発中
+
+# git commands
+
+## 安定板をアップデート
+- git checkout main
+- git merge dev
+
+## 開発続行
+- git checkout dev
+
 ## BanList(強制登録済み)
 - おこそ
 
