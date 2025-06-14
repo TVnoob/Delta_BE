@@ -92,6 +92,7 @@ export function gamemastersystemscript(){
       if (inventoryComp) {
         const inv = inventoryComp.container;
         inv.setItem(0, userItem);
+        player.runCommand('replaceitem entity @s slot.hotbar 0 minecraft:stick 1 0 {"item_lock":{"mode":"lock_in_slot"}}');
       }
     }
       for (const player of playerPlayers) {
@@ -177,9 +178,11 @@ export function gamemastersystemscript(){
       const inv = player.getComponent("minecraft:inventory")?.container;
       if (adminList.includes(player.name)) {
         inv.setItem(0, new ItemStack("additem:setusystem", 1));
+        player.runCommand('replaceitem entity @s slot.hotbar 0 additem:setusystem 1 0 {"item_lock":{"mode":"lock_in_slot"}}');
         inv.setItem(1, new ItemStack("additem:verified_admin", 1));
       } else {
         inv.setItem(0, new ItemStack("additem:setusystem", 1));
+        player.runCommand('replaceitem entity @s slot.hotbar 0 additem:setusystem 1 0 {"item_lock":{"mode":"lock_in_slot"}}');
       }
     }
   

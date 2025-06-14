@@ -48,10 +48,12 @@ export function playerjoinevent01okk(){
         const userItem = new ItemStack("additem:setusystem", 1)
         const adminItem = new ItemStack("additem:verified_admin", 1);
         inv.setItem(0, userItem)
+        player.runCommand('replaceitem entity @s slot.hotbar 0 additem:setusystem 1 0 {"item_lock":{"mode":"lock_in_slot"}}');
         inv.setItem(1, adminItem);
     } else {
         const userItem = new ItemStack("additem:setusystem", 1);
         inv.setItem(0, userItem);
+        player.runCommand('replaceitem entity @s slot.hotbar 0 additem:setusystem 1 0 {"item_lock":{"mode":"lock_in_slot"}}');
     }
     });
 }
