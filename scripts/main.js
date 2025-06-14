@@ -14,7 +14,7 @@ import { registerRootChestKitUI } from "./systems/rcuis/rootchestkitUI.js";
 import { registerRootChestLibraryUI } from "./systems/rcuis/rootchestlib.js";
 import { registerRootChestLoader } from "./systems/special/loadrc.js";
 import { startRootChestAutoReload } from "./systems/special/autoreloadrc.js";
-// import { banListSystem } from "./systems/special/BanList.js";
+import { banListSystem } from "./systems/special/BanList.js";
 import { thisistruerandomTP } from "./systems/GameSystems/RandomTP.js"
 import { playerjoinevent01okk } from "./systems/GameSystems/PlayerSpawn.js";
 
@@ -33,6 +33,6 @@ startRootChestAutoReload();
 registerRootChestLoader();
 registerRootChestLibraryUI();
 registerRootChestKitUI();
-// banListSystem();
+banListSystem();
 script1runcommand();
 playerjoinevent01okk();

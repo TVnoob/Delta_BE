@@ -68,7 +68,7 @@ export function endGameSystem() {
     if (players.length === 0) return;
 
     // ① 全逃走者が injail → 鬼勝利
-    const runners = players.filter(p => !p.hasTag("oni"));
+    const runners = players.filter(p => !p.hasTag("oni") && !p.hasTag("banned"));
     if (runners.length > 0 && runners.every(p => p.hasTag("injail"))) { // ここをinjail以外にしてデバッグ
       world.setDynamicProperty(GAME_STARTED_KEY, false);
       try {

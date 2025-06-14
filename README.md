@@ -20,6 +20,8 @@
 
 - 強制終了:/scriptevent bgc:end
 
+- banlist変更:/tag @s add OBL
+
 - ハードコードにより、有権者には
 - SCPzaidann 1958 (開発者、Delta_convetor)
 - Reiya4384 (配信主、れいやさん) が強制的に追加されてます
@@ -35,6 +37,8 @@
 - 牢屋の機能を復元しました!(V1.2)
 - これにより、捕まったプレイヤーは牢屋に20秒間束縛されます。
 - 全プレイヤーが牢屋に居る又は全プレイヤーが復活不可になった場合、鬼が勝ちます
+
+- banlistに追加されたプレイヤーは試合を観戦できます
 
 ## 鬼ごっこのセットアップ
 
@@ -54,10 +58,11 @@
 - これでもまだわからないことがあったらデルタコンベアーに聞いてください。
 
 ## BanList(強制登録済み)
-- おこそ
+- 現在はなし
 
-# スクリプト一覧(計19個、動的スクリプト17個)
+# スクリプト一覧(計20個、動的スクリプト18個)
 - [adminlist] → ハードコード:CREATORS
+- [banlist] → ハードコード:TERRORIST
 - main.js … スクリプトファイル証明
 - consts.js … const宣言コードを集合させたconfigファイル
 
@@ -68,6 +73,7 @@
 - reviveSystem.js … 捕まり後の20秒処理・復活or観戦
 - speedEnevt.js … スタミナムイベント
 - catchedEv.js … 金棒のシステム
+- (BanList.js) … BanListに入っているプレイヤーは全員強制観戦[adminlist,banlist]
 - RandomTP.js … ランダムTPシステム
 - startcountdownonlysystem.js … reviveSystem.jsの機能の一部を隔離させた
 
@@ -121,6 +127,8 @@
 - これらはアプリが来てから修正に取り掛かります。
 
 ## 更新ログ
+
+- V1.3 banlistを追加
 
 - V1.2 牢屋の機能を復元
 
