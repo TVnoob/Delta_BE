@@ -37,7 +37,7 @@ export function gamemastersystemscript(){
       // ゲーム開始時の処理
       const players = world.getPlayers();
       const adminList = getAdminList();
-      const allPlayers = world.getPlayers();
+
 
       const configRaw = world.getDynamicProperty("config_data");
       let totalOniCount = 1;
@@ -49,19 +49,9 @@ export function gamemastersystemscript(){
       }
 
       // プレイヤーをシャッフルして鬼を選出
-      console.warn(`🔍 所持プレイヤー数: ${players.length}, OniCount: ${totalOniCount}`);
-      const eligiblePlayers = allPlayers.filter(p => !banList.includes(p.name) && !TERRORIST.includes(p.name));
-      const shuffled = shuffleArray(eligiblePlayers);
-      const oniPlayers = shuffled.slice(0, totalOniCount);
-      const playerPlayers = shuffled.slice(totalOniCount);
-
-      // BanList に含まれるプレイヤーは観戦者に強制変更
-      for (const banned of allPlayers) {
-        if (banList.includes(banned.name)) {
-          banned.runCommand("gamemode spectator");
-          banned.sendMessage("§c You are bannend! get out!");
-        }
-      }
+      const shuffledPlayers = shuffleArray(players);
+      const oniPlayers = shuffledPlayers.slice(0, totalOniCount);
+      const playerPlayers = shuffledPlayers.slice(totalOniCount);
 
       // 鬼と逃げるプレイヤーにタグを付与
     for (const player of oniPlayers) {
@@ -219,7 +209,7 @@ export function gamemastersystemscript(){
       }
       return parsed;
     } catch {
-      return [CREATOR];
+      return [CREATORS];
     }
   }
 
