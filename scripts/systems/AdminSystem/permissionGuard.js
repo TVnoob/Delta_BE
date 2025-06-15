@@ -1,6 +1,6 @@
 // scripts/systems/permissionGuard.js
 import { world, system } from "@minecraft/server";
-import { ADMIN_LIST_KEY, CREATORS } from "../consts.js";
+import { getAdminList } from "../consts.js";
 
 const TICK_INTERVAL = 20; // 約1おき
 
@@ -23,17 +23,4 @@ export function systemscript2() {
       }
     }
   }, TICK_INTERVAL);
-
-  function getAdminList() {
-    try {
-      const raw = world.getDynamicProperty(ADMIN_LIST_KEY);
-      const parsed = JSON.parse(raw ?? "[]");
-      for (const name of CREATORS) {
-      if (!parsed.includes(name)) parsed.push(name);
-      }
-      return parsed;
-    } catch {
-      return [CREATOR];
-    }
-  }
 }

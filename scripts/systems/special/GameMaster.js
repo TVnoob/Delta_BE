@@ -1,9 +1,9 @@
 // scripts/systems/special/GameMaster.js
 import { system, world, ItemStack, EquipmentSlot } from "@minecraft/server";
 import { resetAllTimerMap } from "./autoreloadrc.js";
-import { resetCatchCounts } from "./jailSystem.js"
+import { resetCatchCounts } from "../JailSystems/jailSystem.js"
 import { getAllBanList } from "./BanList.js";
-import { CREATORS, ADMIN_LIST_KEY, JAIL_POS_KEY, GAME_STATE_KEY, TERRORIST } from "../consts.js";
+import { GAME_STATE_KEY, TERRORIST, getAdminList } from "../consts.js";
 
 // ゲーム状態を管理する変数
 let gameStarted = false;
@@ -187,19 +187,6 @@ export function gamemastersystemscript(){
     }
   
     world.setDynamicProperty(GAME_STATE_KEY, JSON.stringify({ started: false }));
-  }
-  // 管理者リストを取得する関数
-  function getAdminList() {
-    try {
-      const raw = world.getDynamicProperty(ADMIN_LIST_KEY);
-      const parsed = JSON.parse(raw ?? "[]");
-      for (const name of CREATORS) {
-      if (!parsed.includes(name)) parsed.push(name);
-      }
-      return parsed;
-    } catch {
-      return [CREATORS];
-    }
   }
 
   // 配列をシャッフルする関数

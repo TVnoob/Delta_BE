@@ -1,7 +1,7 @@
 // scripts/susyems/AdminSystem/configUI.js
 import { world, system } from "@minecraft/server";
 import { ModalFormData } from "@minecraft/server-ui";
-import { CREATORS, CONFIG_KEY, ADMIN_LIST_KEY } from "../consts.js";
+import { CONFIG_KEY, getAdminList } from "../consts.js";
 
 // 管理者が使用する設定UI
 export function configUIHandler() {
@@ -92,17 +92,4 @@ function showConfigUI(player) {
     console.warn(`[ConfigUI] フォームエラー: ${err}`);
     player.sendMessage("§c⚠️ UIの表示に失敗しました。");
   });
-}
-
-function getAdminList() {
-  try {
-    const raw = world.getDynamicProperty(ADMIN_LIST_KEY);
-    const parsed = JSON.parse(raw ?? "[]");
-    for (const name of CREATORS) {
-    if (!parsed.includes(name)) parsed.push(name);
-    }
-    return parsed;
-  } catch {
-    return [CREATOR];
-  }
 }

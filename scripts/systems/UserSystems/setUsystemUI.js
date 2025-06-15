@@ -1,7 +1,7 @@
 // scripts/systems/setUsystemUI.js
 import { world, system, EquipmentSlot } from "@minecraft/server";
 import { ModalFormData } from "@minecraft/server-ui";
-import { CREATORS, ADMIN_LIST_KEY } from "../consts.js";
+import { getAdminList } from "../consts.js";
 
 const OPTIONS = ["設定1", "設定2", "設定3"];
 
@@ -82,18 +82,5 @@ export function systemscript3() {
     const admins = getAdminList();
     const offhand = player.getComponent("minecraft:equippable")?.getEquipment(EquipmentSlot.Offhand);
     return admins.includes(player.name) && offhand?.typeId === "additem:verified_admin";
-  }
-
-  function getAdminList() {
-    try {
-      const raw = world.getDynamicProperty(ADMIN_LIST_KEY);
-      const parsed = JSON.parse(raw ?? "[]");
-      for (const name of CREATORS) {
-      if (!parsed.includes(name)) parsed.push(name);
-      }
-      return parsed;
-    } catch {
-      return [CREATOR];
-    }
   }
 }

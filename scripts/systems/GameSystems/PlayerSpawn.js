@@ -1,6 +1,6 @@
 // scripts/ssytems/GameSystems/PlayerSpawn.js
 import { world, ItemStack } from "@minecraft/server";
-import { ADMIN_LIST_KEY, CREATORS } from "../consts.js";
+import { ADMIN_LIST_KEY, CREATORS, getAdminList } from "../consts.js";
 
 export function playerjoinevent01okk(){
     world.afterEvents.playerSpawn.subscribe((event) => {
@@ -56,17 +56,4 @@ export function playerjoinevent01okk(){
         player.runCommand('replaceitem entity @s slot.hotbar 0 additem:setusystem 1 0 {"item_lock":{"mode":"lock_in_slot"}}');
     }
     });
-}
-
-function getAdminList() {
-try {
-    const raw = world.getDynamicProperty(ADMIN_LIST_KEY);
-    const parsed = JSON.parse(raw ?? "[]");
-    for (const name of CREATORS) {
-    if (!parsed.includes(name)) parsed.push(name);
-    }
-    return parsed;
-} catch {
-    return [CREATORS];
-}
 }

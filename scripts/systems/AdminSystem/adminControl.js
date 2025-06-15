@@ -1,7 +1,7 @@
 // scripts/systems/adminControl.js
 import { world, system } from "@minecraft/server";
 import { ModalFormData } from "@minecraft/server-ui";
-import { CREATORS, ADMIN_LIST_KEY, JAIL_POS_KEY, REVIVE_LIMIT_KEY } from "../consts";
+import { CREATORS, ADMIN_LIST_KEY, JAIL_POS_KEY, REVIVE_LIMIT_KEY, getAdminList } from "../consts";
 
 export function systemscript1() {
   world.beforeEvents.itemUse.subscribe((event) => {
@@ -103,17 +103,4 @@ export function systemscript1() {
     });
   }
 
-  function getAdminList() {
-    try {
-      const raw = world.getDynamicProperty(ADMIN_LIST_KEY);
-      const parsed = JSON.parse(raw ?? "[]");
-      for (const name of CREATORS) {
-        if (!parsed.includes(name)) parsed.push(name);
-      }
-      return [...new Set(parsed)];
-    } catch (e) {
-      console.warn(`⚠️ 管理者リストの解析エラー: ${e}`);
-      return [...CREATORS];
-    }
-  }
 }

@@ -5,7 +5,7 @@ import { script1runcommand } from "./systems/temp_scripts/script1.js";
 import {systemscript1} from "./systems/AdminSystem/adminControl.js";
 import {systemscript2} from "./systems/AdminSystem/permissionGuard.js";
 import {systemscript3} from "./systems/UserSystems/setUsystemUI.js";
-import {jailSystem} from "./systems/special/jailSystem.js";
+import {jailSystem} from "./systems/JailSystems/jailSystem.js";
 import {endGameSystem} from "./systems/GameSystems/endGameSystem.js";
 import {gamemastersystemscript} from "./systems/special/GameMaster.js";
 import {configUIHandler} from "./systems/AdminSystem/configUI.js";
