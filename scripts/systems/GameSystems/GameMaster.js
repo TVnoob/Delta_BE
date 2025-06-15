@@ -1,6 +1,6 @@
 // scripts/systems/special/GameMaster.js
 import { system, world, ItemStack } from "@minecraft/server";
-import { resetAllTimerMap } from "./autoreloadrc.js";
+import { resetAllTimerMap } from "../rcuis/autoreloadrc.js";
 import { resetCatchCounts } from "../JailSystems/jailSystem.js"
 import { getAllBanList } from "./BanList.js";
 import { GAME_STATE_KEY, TERRORIST, getAdminList } from "../consts.js";
