@@ -18,6 +18,7 @@ export function playerjoinevent01okk(){
     if (!owners.includes(name)) {
         owners.push(name);
         world.setDynamicProperty("owner_names", JSON.stringify(owners));
+        console.warn( "作動済み" );
         player.sendMessage("§a✅ あなたがオーナーとして登録されました。");
     }
 
@@ -48,7 +49,11 @@ export function playerjoinevent01okk(){
     } catch (e) {
     console.warn("⚠️ config_data 読み込み失敗:", e);
     }
+    try {
     player.teleport(lobby);
+    } catch (e){
+    console.warn("ロビー位置が設定されてないため終了", e);
+    }
 
     // インベントリクリア
     const inv = player.getComponent("minecraft:inventory")?.container;
