@@ -1,7 +1,7 @@
 // scripts/main.js
 import { registerSpeedItemEvents } from "./systems/GameSystems/speedEnevt.js";
 import { registerCatchedEvents } from "./systems/GameSystems/catchedEv.js";
-import { script1runcommand } from "./temp_scripts/script1.js";
+import { script1runcommand } from "./systems/temp_scripts/script1.js";
 import {systemscript1} from "./systems/AdminSystem/adminControl.js";
 import {systemscript2} from "./systems/AdminSystem/permissionGuard.js";
 import {systemscript3} from "./systems/UserSystems/setUsystemUI.js";
