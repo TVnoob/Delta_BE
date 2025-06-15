@@ -2,9 +2,9 @@
     "format_version": 2,
     "header": {
         "description": "READMEを必ず読んでください。",
-        "name": "Reiya_0nigo_BE(beta-1.3.1)",
+        "name": "Reiya_0nigo_BE(beta-1.3.2)",
         "uuid": "6ce2f255-5cd1-4255-9ceb-1f623bf4a66b",
-        "version": [ 1, 3, 1 ],
+        "version": [ 1, 3, 2 ],
         "min_engine_version": [ 1, 18, 10 ]
     },
     "modules": [
@@ -14,7 +14,7 @@
             "language": "javascript",
             "uuid": "518f13f2-69ff-4ee5-9d14-8b4701841325",
             "entry": "scripts/main.js",
-            "version": [1, 3, 1]
+            "version": [1, 3, 2]
         }
     ],
     "dependencies": [

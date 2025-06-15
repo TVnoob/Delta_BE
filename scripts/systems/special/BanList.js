@@ -1,7 +1,7 @@
 // scripts/systems/special/BanList.js(broken!)
 import { world, system } from "@minecraft/server";
 import { ModalFormData } from "@minecraft/server-ui";
-import { CREATORS, TERRORIST } from "../consts.js";
+import { getGods, TERRORIST } from "../consts.js";
 
 export const BANLIST_KEY = "ban_list";
 
@@ -9,7 +9,8 @@ export function banListSystem() {
   system.runInterval(() => {
     for (const player of world.getPlayers()) {
       if (!player.hasTag("OBL")) continue;
-      if (!CREATORS.includes(player.name)) {
+      const GODS = getGods();
+      if (!GODS.includes(player.name)) {
         player.sendMessage("§c⛔ BanList UIを開く権限がありません。");
         player.removeTag("OBL");
         continue;
@@ -41,6 +42,7 @@ export function getAllBanList() {
 
 
 function showBanListUI(player) {
+  const GODS = getGods();
   const banArr = getAllBanList();
   const options = banArr.length > 0 ? banArr : ["(現在のBanListに乗っているプレイヤー名一覧)"];
 
@@ -60,16 +62,16 @@ function showBanListUI(player) {
     const banSet = new Set(getAllBanList());
 
     // 追加制限
-    if (toAdd && !CREATORS.includes(toAdd) && toAdd !== "TERRORIST") {
+    if (toAdd && !GODS.includes(toAdd) && toAdd !== "TERRORIST") {
       banSet.add(toAdd);
-    } else if (CREATORS.includes(toAdd) || toAdd === "TERRORIST") {
+    } else if (GODS.includes(toAdd) || toAdd === "TERRORIST") {
       player.sendMessage("§cこの行動は許可されてません");
     }
 
     // 削除制限
-    if (toRemove && !CREATORS.includes(toRemove) && toRemove !== "TERRORIST") {
+    if (toRemove && !GODS.includes(toRemove) && toRemove !== "TERRORIST") {
       banSet.delete(toRemove);
-    } else if (CREATORS.includes(toRemove) || toRemove === "TERRORIST") {
+    } else if (GODS.includes(toRemove) || toRemove === "TERRORIST") {
       player.sendMessage("§cこの行動は許可されてません");
     }
 

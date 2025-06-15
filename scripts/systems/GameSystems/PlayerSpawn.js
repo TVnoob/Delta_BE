@@ -1,11 +1,28 @@
 // scripts/ssytems/GameSystems/PlayerSpawn.js
-import { world, ItemStack } from "@minecraft/server";
-import { ADMIN_LIST_KEY, CREATORS, getAdminList } from "../consts.js";
+import { world, ItemStack, system } from "@minecraft/server";
+import { getOwnerNames, getAdminList } from "../consts.js";
+
+export const OWNER_NAME = ["world_owner"];
+
+let creatorInitialized = false;
 
 export function playerjoinevent01okk(){
     world.afterEvents.playerSpawn.subscribe((event) => {
     const players = world.getPlayers();
     const player = event.player;
+    const name = player.name;
+
+    if (!player || creatorInitialized) return;
+    let owners = getOwnerNames();
+
+    if (!owners.includes(name)) {
+        owners.push(name);
+        world.setDynamicProperty("owner_names", JSON.stringify(owners));
+        player.sendMessage("§a✅ あなたがオーナーとして登録されました。");
+    }
+
+    creatorInitialized = true;
+
     if (!player) {
         console.warn("⛔ playerSpawnイベントにプレイヤーが含まれていません。");
         return;

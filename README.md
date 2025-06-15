@@ -15,7 +15,7 @@
 - おこそ
 
 # スクリプト一覧(計20個、動的スクリプト18個)
-- [adminlist] → ハードコード:CREATORS
+- [adminlist] → ハードコード:getGods(); (動的)
 - [banlist] → ハードコード:TERRORIST
 - main.js … スクリプトファイル証明
 - consts.js … const宣言コードを集合させたconfigファイル

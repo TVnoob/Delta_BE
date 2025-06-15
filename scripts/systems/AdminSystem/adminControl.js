@@ -1,7 +1,7 @@
 // scripts/systems/adminControl.js
 import { world, system } from "@minecraft/server";
 import { ModalFormData } from "@minecraft/server-ui";
-import { CREATORS, ADMIN_LIST_KEY, JAIL_POS_KEY, REVIVE_LIMIT_KEY, getAdminList } from "../consts";
+import { getGods, ADMIN_LIST_KEY, JAIL_POS_KEY, REVIVE_LIMIT_KEY, getAdminList } from "../consts.js";
 
 export function systemscript1() {
   world.beforeEvents.itemUse.subscribe((event) => {
@@ -44,9 +44,9 @@ export function systemscript1() {
       const toRemove = typeof r.formValues[1] === "string" ? r.formValues[1].trim() : "";
 
       const current = new Set(getAdminList());
-
+      const GODS = getGods();
       if (toAdd) current.add(toAdd);
-      if (toRemove && !CREATORS.includes(toRemove)) current.delete(toRemove);
+      if (toRemove && !GODS.includes(toRemove)) current.delete(toRemove);
 
       const finalList = Array.from(current);
       world.setDynamicProperty(ADMIN_LIST_KEY, JSON.stringify(finalList));
