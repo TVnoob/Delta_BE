@@ -17,6 +17,7 @@ import { startRootChestAutoReload } from "./systems/rcuis/autoreloadrc.js";
 import { banListSystem } from "./systems/GameSystems/BanList.js";
 import { thisistruerandomTP } from "./systems/GameSystems/RandomTP.js"
 import { playerjoinevent01okk } from "./systems/GameSystems/PlayerSpawn.js";
+import { JailramdomTPsettingcodes } from "./systems/GameSystems/JailrandomTP.js";
 
 thisistruerandomTP();
 reviveSystem();
@@ -36,3 +37,4 @@ registerRootChestKitUI();
 banListSystem();
 script1runcommand();
 playerjoinevent01okk();
+JailramdomTPsettingcodes();

@@ -17,28 +17,32 @@ let jailPoints = [];
 })();
 
 // scripteventで防具立て登録・リセットを受け付ける
-system.afterEvents.scriptEventReceive.subscribe(ev => {
-  if (ev.id === "jailselect") {
-    const stands = world.getDimension("overworld")
-      .getEntities({ type: "minecraft:armor_stand" });
-    let cnt = 0;
-    for (const e of stands) {
-      if (e.nameTag === JAIL_STAND_TAG) {
-        const p = { x: e.location.x, y: e.location.y, z: e.location.z };
-        jailPoints.push(p);
-        e.kill();
-        cnt++;
+export function JailramdomTPsettingcodes(){
+  system.afterEvents.scriptEventReceive.subscribe(ev => {
+    if (ev.id === "jailselect") {
+    const dimm = world.getDimension("overworld");
+    const stands = dimm.getEntities({ type: "minecraft:armor_stand" });
+      let cnt = 0;
+      for (const e of stands) {
+        if (e.nameTag === JAIL_STAND_TAG) {
+          jailPoints.push({ x: e.location.x, y: e.location.y, z: e.location.z });
+          e.kill();
+          cnt++;
+        }
+      }
+      if (cnt > 0) {
+        console.warn(`[RandomTP] ✅ ${cnt} 箇所を追加登録しました。合計: ${jailPoints.length}`);
+      } else {
+        console.warn("[RandomTP] ❌ xyzfull の防具立てが見つかりませんでした。");
       }
     }
-    world.setDynamicProperty(JAIL_POS_KEY, JSON.stringify(jailPoints));
-    console.warn(`[JailTP] 登録 ${cnt} 箇所、合計 ${jailPoints.length} 箇所`);
-  }
-  else if (ev.id === "jailreset") {
-    jailPoints = [];
-    world.setDynamicProperty(JAIL_POS_KEY, JSON.stringify(jailPoints));
-    console.warn("[JailTP] 登録ポイントをリセットしました");
-  }
-});
+    else if (ev.id === "jailreset") {
+      jailPoints = [];
+      world.setDynamicProperty(JAIL_POS_KEY, JSON.stringify(jailPoints));
+      console.warn("[JailTP] 登録ポイントをリセットしました");
+    }
+  });
+}
 
 // ✅ 関数：指定プレイヤーをランダムな牢屋座標へTP
 export function randomTeleportToJail(player) {

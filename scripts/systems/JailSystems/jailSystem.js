@@ -8,6 +8,7 @@ const PLAYER_CATCH_COUNT_KEY = "player_catch_counts";
 let JailintervalId = null;
 
 export function settingjailsystem(){
+  let reviveMode = "auto"; // reviveSystem.js と仕組みを併用(説明脳死)
   if (JailintervalId !== null) {
     system.clearRun(JailintervalId);
     JailintervalId = null;

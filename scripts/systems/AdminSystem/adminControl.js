@@ -68,14 +68,25 @@ export function showJailSetupUI(player) {
 
   form.show(player).then(res => {
     if (res.canceled) return;
-    const [setJail, doReset] = res.formValues;
+
+    const [setJail, doReset, reviveLimitInput] = res.formValues;
+
+    // 🔧 JAIL_POS_KEY の読み込みと初期化
+    let jailPoints = [];
+    try {
+      const raw = world.getDynamicProperty(JAIL_POS_KEY) ?? "[]";
+      jailPoints = JSON.parse(raw);
+      if (!Array.isArray(jailPoints)) jailPoints = [];
+    } catch {
+      jailPoints = [];
+    }
 
     if (setJail) {
-      world.broadcastEvent("jailselect", {});
+      player.runCommand("scriptevent jailselect");
       player.sendMessage("§a✅ 牢屋を登録しました");
     }
     if (doReset) {
-      world.broadcastEvent("jailreset", {});
+      player.runCommand("scriptevent jailreset");
       player.sendMessage("§c✅ 牢屋をリセットしました");
     }
 
@@ -87,7 +98,7 @@ export function showJailSetupUI(player) {
         player.sendMessage("§c⛔ 無効な復活回数が入力されました。");
       }
 
-      world.setDynamicProperty(JAIL_POS_KEY, JSON.stringify(jailData));
+      world.setDynamicProperty(JAIL_POS_KEY, JSON.stringify(jailPoints));
     }).catch(err => {
       console.warn("⚠️ 牢屋UIエラー:", err);
       player.sendMessage("§c⛔ 牢屋座標の設定に失敗しました。");
