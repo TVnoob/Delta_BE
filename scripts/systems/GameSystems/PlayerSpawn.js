@@ -53,6 +53,7 @@ export function playerjoinevent01okk(){
     player.teleport(lobby);
     } catch (e){
     console.warn("ロビー位置が設定されてないため終了", e);
+    player.sendMessage("§l§cロビー位置が設定されてません!");
     }
 
     // インベントリクリア

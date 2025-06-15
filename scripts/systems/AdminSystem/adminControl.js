@@ -56,51 +56,40 @@ export function systemscript1() {
       player.sendMessage("§c⛔ 管理者UIの表示に失敗しました。");
     });
   }
+}
 
-  function showJailSetupUI(player) {
+export function showJailSetupUI(player) {
     const form = new ModalFormData()
       .title("牢屋座標設定")
-      .toggle("この位置を牢屋1として登録")
+      .toggle("jailという名前が付いた防具立ての座標に牢屋を登録")
+      .toggle("jail位置の登録を全てリセット")
       .textField("復活できる回数", "例: 3", { defaultValue: "3" });
 
-    form.show(player).then(response => {
-      if (response.canceled) return;
 
-      const shouldSetJail = response.formValues[0]; // ← トグルの値（true/false）
-      const reviveLimitInput = response.formValues[1];
+  form.show(player).then(res => {
+    if (res.canceled) return;
+    const [setJail, doReset] = res.formValues;
 
-      const pos = {
-        x: Math.floor(player.location.x),
-        y: Math.floor(player.location.y),
-        z: Math.floor(player.location.z)
-      };
+    if (setJail) {
+      world.broadcastEvent("jailselect", {});
+      player.sendMessage("§a✅ 牢屋を登録しました");
+    }
+    if (doReset) {
+      world.broadcastEvent("jailreset", {});
+      player.sendMessage("§c✅ 牢屋をリセットしました");
+    }
 
-      const raw = world.getDynamicProperty(JAIL_POS_KEY) ?? "{}";
-      let jailPositions;
-      try {
-        jailPositions = JSON.parse(raw);
-      } catch {
-        jailPositions = {};
-      }
-
-      if (shouldSetJail) {
-        jailPositions.jail1 = pos;
-        player.sendMessage("§a✅ 牢屋1の座標を設定しました。");
-      }
-
-      const reviveLimit = parseInt(reviveLimitInput);
-      if (!isNaN(reviveLimit) && reviveLimit >= 0) {
-        world.setDynamicProperty(REVIVE_LIMIT_KEY, reviveLimit);
-        player.sendMessage(`§a✅ 復活できる回数を ${reviveLimit} 回に設定しました。`);
+      const reviveCount = parseInt(reviveLimitInput);
+      if (!isNaN(reviveCount) && reviveCount >= 0) {
+        world.setDynamicProperty(REVIVE_LIMIT_KEY, reviveCount);
+        player.sendMessage(`§a✅ 復活できる回数を ${reviveCount} 回に設定しました。`);
       } else {
         player.sendMessage("§c⛔ 無効な復活回数が入力されました。");
       }
 
-      world.setDynamicProperty(JAIL_POS_KEY, JSON.stringify(jailPositions));
+      world.setDynamicProperty(JAIL_POS_KEY, JSON.stringify(jailData));
     }).catch(err => {
-      console.warn(`⚠️ 牢屋UIエラー: ${err}`);
+      console.warn("⚠️ 牢屋UIエラー:", err);
       player.sendMessage("§c⛔ 牢屋座標の設定に失敗しました。");
     });
-  }
-
 }

@@ -24,6 +24,7 @@
 - consts.js … const宣言コードを集合させたconfigファイル
 
 ## Game Systems
+- JailrandomTP.js … 牢屋に飛ぶところをランダムTPに
 - PlayerSpawn.js … GameMaster.jsにあるコードの一部を移動させた
 - GameMaster.js … ゲーム開始・終了・タグ管理・アイテム配布
 - endGameSystem.js … 状態監視と勝敗判定（強制終了含む）
