@@ -1,7 +1,7 @@
 <<<<<<< HEAD
 
 # プロジェクト状態
-
+- Dev-V1.3.2
 # git commands
 
 ## 安定板をアップデート
@@ -12,7 +12,6 @@
 - git checkout dev
 
 ## BanList(強制登録済み)
-- おこそ
 
 # スクリプト一覧(計20個、動的スクリプト18個)
 - [adminlist] → ハードコード:getGods(); (動的)
