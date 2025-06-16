@@ -72,17 +72,6 @@ export function settingjailsystem(){
       const raw = world.getDynamicProperty(JAIL_POS_KEY);
       if (!raw) return;
 
-      const reviveLimit = world.getDynamicProperty(REVIVE_LIMIT_KEY);
-      const reviveLimitNumber = typeof reviveLimit === "number" ? reviveLimit : 3;
-
-      const catchCountsRaw = world.getDynamicProperty(PLAYER_CATCH_COUNT_KEY) ?? "{}";
-      let catchCounts;
-      try {
-        catchCounts = JSON.parse(catchCountsRaw);
-      } catch {
-        catchCounts = {};
-      }
-
       for (const player of world.getPlayers()) {
         if (!player.hasTag("catched") || player.hasTag("injail")) continue;
 
