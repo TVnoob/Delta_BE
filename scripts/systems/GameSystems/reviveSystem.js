@@ -110,3 +110,13 @@ export function reviveSystem() {
     });
   }
 }
+
+system.afterEvents.scriptEventReceive.subscribe((event) => {
+  if (id === "bgc:end" ){
+    if (intervalId !== null) {
+      system.clearRun(intervalId);
+      intervalId = null;
+      console.warn("reviveSystem.jsのリセット完了");
+    }
+  }
+});
