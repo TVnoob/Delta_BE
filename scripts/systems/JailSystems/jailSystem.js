@@ -9,6 +9,13 @@ let JailintervalId = null;
 
 export function settingjailsystem(){
   let reviveMode = "auto"; // reviveSystem.js と仕組みを併用(説明脳死)
+  try {
+      const configRaw = world.getDynamicProperty("config_data") ?? "{}";
+      const config = JSON.parse(configRaw);
+      reviveMode = config.reviveMode ?? "auto";
+    } catch (e) {
+      console.warn("⚠️ reviveMode 読み込み失敗:", e);
+    }
   if (JailintervalId !== null) {
     system.clearRun(JailintervalId);
     JailintervalId = null;
