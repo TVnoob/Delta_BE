@@ -48,7 +48,6 @@ export function reviveSystem() {
   });
 
   function autoReviveLogic() {
-    system.runInterval(() => {
 
       const reviveLimit = typeof world.getDynamicProperty(REVIVE_LIMIT_KEY) === "number"
         ? world.getDynamicProperty(REVIVE_LIMIT_KEY)
@@ -82,11 +81,9 @@ export function reviveSystem() {
           randomTeleportPlayer(player);
         }
       }
-    }, 1);
   }
 
   function manualReviveLogic() {
-    system.runInterval(() => {
     world.afterEvents.entityHurt.subscribe((event) => {
         const { hurtEntity, damageSource } = event;
         // 攻撃者が存在しない場合は終了
@@ -111,6 +108,5 @@ export function reviveSystem() {
             console.warn("⚠️ タグ付与エラー:", e);
         }
     });
-    },1);
   }
 }
