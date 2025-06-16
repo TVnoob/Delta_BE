@@ -2,14 +2,14 @@
     "format_version": 2,
     "header": {
         "description": "READMEを必ず読んでください。",
-        "name": "Reiya_0nigo_BE(beta-1.4.0)",
+        "name": "即席鬼ごっこアドオン(beta-1.4.0)",
         "uuid": "6ce2f255-5cd1-4255-9ceb-1f623bf4a66b",
         "version": [ 1, 4, 0 ],
         "min_engine_version": [ 1, 18, 10 ]
     },
     "modules": [
         {
-            "description": "(試験的)",
+            "description": "Create by Delta_Comveyor",
             "type": "script",
             "language": "javascript",
             "uuid": "518f13f2-69ff-4ee5-9d14-8b4701841325",
