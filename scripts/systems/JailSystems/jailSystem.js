@@ -20,7 +20,6 @@ export function settingjailsystem(){
   }
 
   function jailSystemone() {
-    system.runInterval(() => {
       const raw = world.getDynamicProperty(JAIL_POS_KEY);
       if (!raw) return;
 
@@ -60,11 +59,9 @@ export function settingjailsystem(){
       }
 
       world.setDynamicProperty(PLAYER_CATCH_COUNT_KEY, JSON.stringify(catchCounts));
-    }, 1);
   }
 
   function jailsystemtwo(){
-    system.runInterval(() => {
       const raw = world.getDynamicProperty(JAIL_POS_KEY);
       if (!raw) return;
 
@@ -97,7 +94,6 @@ export function settingjailsystem(){
           console.warn(`⚠️ テレポート失敗: ${e}`);
         }
       }
-    }, 1);
   }
 }
 
