@@ -2,8 +2,7 @@
 import { world, system } from "@minecraft/server";
 import { JAIL_POS_KEY } from "../consts.js";
 
-const JAILTAG = "jail";
-const JAIL_STAND_TAG = "xyzjail";
+const JAIL_STAND_TAG = "jail";
 
 let jailPoints = [];
 
@@ -31,6 +30,7 @@ export function JailramdomTPsettingcodes(){
         }
       }
       if (cnt > 0) {
+        world.setDynamicProperty(JAIL_POS_KEY, JSON.stringify(jailPoints));
         console.warn(`[RandomTP] ✅ ${cnt} 箇所を追加登録しました。合計: ${jailPoints.length}`);
       } else {
         console.warn("[RandomTP] ❌ xyzfull の防具立てが見つかりませんでした。");
