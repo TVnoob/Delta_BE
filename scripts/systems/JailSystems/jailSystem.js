@@ -107,3 +107,13 @@ export function settingjailsystem(){
 export function resetCatchCounts() {
   world.setDynamicProperty(PLAYER_CATCH_COUNT_KEY, JSON.stringify({}));
 }
+function resetthisscriptsystem(){
+  system.afterEvents.scriptEventReceive.subscribe((event) => {
+    if (id === bgc:end ){
+      if (JailintervalId !== null) {
+        system.clearRun(JailintervalId);
+        JailintervalId = null;
+      }
+    }
+  }
+}
