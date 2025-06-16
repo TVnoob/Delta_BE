@@ -2,7 +2,7 @@
 import { system, world, Player, EquipmentSlot } from "@minecraft/server";
 import { randomTeleportPlayer } from "./RandomTP.js";
 import { startcountdownonlysystem } from "./startcountdownonlysystem.js"
-import { REVIVE_LIMIT_KEY } from "../consts.js";
+import { REVIVE_LIMIT_KEY, getGods } from "../consts.js";
 
 
 const REVIVE_DURATION_TICKS = 20 * 20; // 20秒
@@ -52,6 +52,11 @@ export function reviveSystem() {
       intervalId = null;
       console.warn("reviveSystem.jsのリセット完了");
     }
+    }
+    if (e.id === "dev:mr" ){
+    const GODS = getGods();
+    GODS.removeTag("injail");
+    randomTeleportPlayer(GODS)
     }
   });
 
@@ -114,6 +119,21 @@ export function reviveSystem() {
         try {
             player.removeTag("injail");
             randomTeleportPlayer(player)
+            const inventory = attacker.getComponent("minecraft:inventory")?.container;
+            if (inventory) {
+              for (let i = 0; i < inventory.size; i++) {
+                const item = inventory.getItem(i);
+                if (item && item.typeId === "minecraft:tripwire_hook") {
+                  item.amount -= 1;
+                  if (item.amount <= 0) {
+                    inventory.setItem(i, undefined);
+                  } else {
+                    inventory.setItem(i, item);
+                  }
+                  break;
+                }
+              }
+            }
         } catch (e) {
             console.warn("⚠️ タグ付与エラー:", e);
         }

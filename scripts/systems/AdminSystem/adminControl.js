@@ -62,7 +62,7 @@ export function showJailSetupUI(player) {
     const form = new ModalFormData()
       .title("牢屋座標設定")
       .toggle("jailという名前が付いた防具立ての座標に牢屋を登録")
-      .toggle("jail位置の登録を全てリセット")
+      .toggle("xyzfullという名前が付いた防具立ての座標をランダム湧き位置に登録")
       .textField("復活できる回数", "例: 3", { defaultValue: "3" });
 
 
@@ -86,8 +86,8 @@ export function showJailSetupUI(player) {
       player.sendMessage("§a✅ 牢屋を登録しました");
     }
     if (doReset) {
-      player.runCommand("scriptevent jail:reset");
-      player.sendMessage("§c✅ 牢屋をリセットしました");
+      player.runCommand("scriptevent xyz:select");
+      player.sendMessage("§a✅ ランダム湧き位置を登録しました");
     }
 
       const reviveCount = parseInt(reviveLimitInput);

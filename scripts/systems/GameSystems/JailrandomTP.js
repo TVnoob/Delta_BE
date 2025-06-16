@@ -6,15 +6,6 @@ const JAIL_STAND_TAG = "jail";
 
 let jailPoints = [];
 
-// 起動時に保存データを復元
-(function loadSaved() {
-  try {
-    const raw = world.getDynamicProperty(JAIL_POS_KEY) ?? "[]";
-    const arr = JSON.parse(raw);
-    if (Array.isArray(arr)) jailPoints = arr;
-  } catch {}
-})();
-
 // scripteventで防具立て登録・リセットを受け付ける
 export function JailramdomTPsettingcodes(){
   system.afterEvents.scriptEventReceive.subscribe(ev => {
