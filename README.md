@@ -65,8 +65,6 @@
 
 - loadrc.js … RootChestCreateKitから統合、rootchestを生成できる[ops]
 
-- 説明: これらは互いにスクリプトをimportしあってるので別にくくりました
-
 ## temp_scripts
 - script1.js … 金棒の加速スクリプト
 
