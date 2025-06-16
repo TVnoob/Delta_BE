@@ -113,6 +113,7 @@ system.afterEvents.scriptEventReceive.subscribe((event) => {
     if (JailintervalId !== null) {
       system.clearRun(JailintervalId);
       JailintervalId = null;
+      console.warn("JailSystem.jsのリセット完了");
     }
   }
 });
