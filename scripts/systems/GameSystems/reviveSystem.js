@@ -13,6 +13,10 @@ let initialPhase = false;
 
 export function reviveSystem() {
   system.afterEvents.scriptEventReceive.subscribe(e => {
+    if (e.id !== "bgc:start") return;
+    initialPhase = true;
+    reviveTimers.clear();
+
     const configRaw = world.getDynamicProperty("config_data") ?? "{}";
     let reviveMode = "auto"; // デフォルト
     try {
@@ -30,10 +34,6 @@ export function reviveSystem() {
   } else if (reviveMode === "manual") {
     intervalId = system.runInterval(manualReviveLogic, 1);
   }
-    if (e.id !== "bgc:start") return;
-    initialPhase = true;
-    reviveTimers.clear();
-
     for (const p of world.getPlayers()) {
       if (!p.hasTag("oni")) {
         console.warn(`[ReviveSystem] ランダムTP対象: ${p.name}`);
@@ -44,6 +44,14 @@ export function reviveSystem() {
       } else {
         console.warn(`[ReviveSystem] 鬼のためTPスキップ: ${p.name}`);
       }
+    }
+
+    if (e.id === "bgc:end" ){
+    if (intervalId !== null) {
+      system.clearRun(intervalId);
+      intervalId = null;
+      console.warn("reviveSystem.jsのリセット完了");
+    }
     }
   });
 
@@ -99,24 +107,16 @@ export function reviveSystem() {
         console.warn("✅ 右手アイテム:", heldItem?.typeId);
 
         if (!heldItem || heldItem.typeId !== "minecraft:tripwire_hook") return;
+        const player = hurtEntity
+        if (!(player instanceof Player)) return;
         const tofreeplayer = !player.hasTag("oni") && player.hasTag("injail");
         if (!tofreeplayer) return;
         try {
-            hurtEntity.removeTag("injail");
-            randomTeleportPlayer(hurtEntity)
+            player.removeTag("injail");
+            randomTeleportPlayer(player)
         } catch (e) {
             console.warn("⚠️ タグ付与エラー:", e);
         }
     });
   }
 }
-
-system.afterEvents.scriptEventReceive.subscribe((event) => {
-  if (id === "bgc:end" ){
-    if (intervalId !== null) {
-      system.clearRun(intervalId);
-      intervalId = null;
-      console.warn("reviveSystem.jsのリセット完了");
-    }
-  }
-});

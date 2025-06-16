@@ -18,7 +18,7 @@ let jailPoints = [];
 // scripteventで防具立て登録・リセットを受け付ける
 export function JailramdomTPsettingcodes(){
   system.afterEvents.scriptEventReceive.subscribe(ev => {
-    if (ev.id === "jailselect") {
+    if (ev.id === "jail:select") {
     const dimm = world.getDimension("overworld");
     const stands = dimm.getEntities({ type: "minecraft:armor_stand" });
       let cnt = 0;
@@ -36,7 +36,7 @@ export function JailramdomTPsettingcodes(){
         console.warn("[RandomTP] ❌ xyzfull の防具立てが見つかりませんでした。");
       }
     }
-    else if (ev.id === "jailreset") {
+    else if (ev.id === "jail:reset") {
       jailPoints = [];
       world.setDynamicProperty(JAIL_POS_KEY, JSON.stringify(jailPoints));
       console.warn("[JailTP] 登録ポイントをリセットしました");

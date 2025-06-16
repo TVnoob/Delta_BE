@@ -82,11 +82,11 @@ export function showJailSetupUI(player) {
     }
 
     if (setJail) {
-      player.runCommand("scriptevent jailselect");
+      player.runCommand("scriptevent jail:select");
       player.sendMessage("§a✅ 牢屋を登録しました");
     }
     if (doReset) {
-      player.runCommand("scriptevent jailreset");
+      player.runCommand("scriptevent jail:reset");
       player.sendMessage("§c✅ 牢屋をリセットしました");
     }
 
