@@ -1,6 +1,8 @@
 <<<<<<< HEAD
 
 # release alpha V1.4.0!
+### リソースパック
+- link: https://github.com/TVnoob/Delta_RE
 
 # 注意!!!
 
