@@ -94,7 +94,7 @@ export function settingjailsystem(){
           const playerName = player.name;
 
 
-          player.sendMessage("§c 捕まりました。仲間の救助を待ちましょう")
+          player.sendMessage("§c 捕まりました。仲間からの救助を待ちましょう")
 
           console.warn(`[INJAIL] ${playerName}`);
         } catch (e) {
@@ -107,13 +107,12 @@ export function settingjailsystem(){
 export function resetCatchCounts() {
   world.setDynamicProperty(PLAYER_CATCH_COUNT_KEY, JSON.stringify({}));
 }
-function resetthisscriptsystem(){
-  system.afterEvents.scriptEventReceive.subscribe((event) => {
-    if (id === bgc:end ){
-      if (JailintervalId !== null) {
-        system.clearRun(JailintervalId);
-        JailintervalId = null;
-      }
+
+system.afterEvents.scriptEventReceive.subscribe((event) => {
+  if (id === "bgc:end" ){
+    if (JailintervalId !== null) {
+      system.clearRun(JailintervalId);
+      JailintervalId = null;
     }
   }
-}
+});
