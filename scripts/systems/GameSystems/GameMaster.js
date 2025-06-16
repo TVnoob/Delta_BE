@@ -173,6 +173,7 @@ export function gamemastersystemscript(){
           container.setItem(i, undefined);
         }
         player.runCommand("clear @s");
+        player.runCommand("effect @s clear")
       }
 
       // ✅ ロビー座標の取得
@@ -192,11 +193,11 @@ export function gamemastersystemscript(){
         player.runCommand("xp -1000L");
         try{
         player.teleport(lobby);
+        player.sendMessage("§a🏁 ロビーに戻されました");
         } catch{
           player.sendMessage(`§l§g[GameMaster.js]§l§c!ERROR! ロビー位置が未設定です!`);
           player.sendMessage(`§l§g[GameMaster.js]§l§cロビーへの転送ができませんでした`);
         }
-        player.sendMessage("§a🏁 ロビーに戻されました");
       }
   
       // ✅ アイテム付与
