@@ -1,9 +1,9 @@
 // scripts/systems/special/GameMaster.js
-import { system, world, ItemStack, EquipmentSlot } from "@minecraft/server";
-import { resetAllTimerMap } from "./autoreloadrc.js";
-import { resetCatchCounts } from "./jailSystem.js"
+import { system, world, ItemStack } from "@minecraft/server";
+import { resetAllTimerMap } from "../rcuis/autoreloadrc.js";
+import { resetCatchCounts } from "../JailSystems/jailSystem.js"
 import { getAllBanList } from "./BanList.js";
-import { CREATORS, ADMIN_LIST_KEY, JAIL_POS_KEY, GAME_STATE_KEY, TERRORIST } from "../consts.js";
+import { GAME_STATE_KEY, TERRORIST, getAdminList } from "../consts.js";
 
 // ゲーム状態を管理する変数
 let gameStarted = false;
@@ -22,6 +22,7 @@ export function gamemastersystemscript(){
         const inv = player.getComponent("minecraft:inventory")?.container;
         if (inv) {
           player.runCommand("clear @s");
+          player.runCommand("xp -1000L");
           for (let i = 0; i < inv.size; i++) {
             inv.setItem(i, undefined);
           }
@@ -64,7 +65,7 @@ export function gamemastersystemscript(){
         }
       }
 
-      // 鬼と逃げるプレイヤーにタグを付与
+      // 鬼と逃げるプレイヤーにタグと装備を付与
     for (const player of oniPlayers) {
       const chest = new ItemStack("minecraft:leather_chestplate", 1);
       player.runCommand("xp -1000L @a");
@@ -84,7 +85,18 @@ export function gamemastersystemscript(){
       } catch (e) {
         console.warn("⚠️ config_data 読み込み失敗:", e);
       }
+      try{
       player.teleport(lobby);
+      } catch{
+        player.sendMessage(`§l§g[GameMaster.js]§l§c!ERROR! ロビー位置が未設定です!`);
+        player.sendMessage(`§l§g[GameMaster.js]§4エラーによりゲームが崩壊したことを検知しました`);
+        player.sendMessage(`§l§g[GameMaster.js]§4ゲームを強制終了します`);
+        try{
+        player.runCommand("scriptevent bgc:end");
+        } catch (e) {
+          player.sendMessage(`§l§g[GameMaster.js]§4エラーにより終了できませんでした。`, e);
+        }
+      }
 
       const userItem = new ItemStack("minecraft:stick", 1);
 
@@ -126,6 +138,14 @@ export function gamemastersystemscript(){
             }
           } catch (e) {
             console.warn("鬼スポーンの取得エラー:", e);
+            player.sendMessage(`§l§c!ERROR! 鬼のスポーンポイントが未設定です!`);
+            player.sendMessage(`§l§g[GameMaster.js]§4エラーによりゲームが崩壊したことを検知しました`);
+            player.sendMessage(`§l§g[GameMaster.js]§4ゲームを強制終了します`);
+            try{
+            player.runCommand("scriptevent bgc:end");
+            } catch (e) {
+              player.sendMessage(`§l§g[GameMaster.js]§4エラーにより終了できませんでした。`, e);
+            }
           }
         }
       }, 20 * 20); // 20秒後（20tick * 20）
@@ -153,6 +173,7 @@ export function gamemastersystemscript(){
           container.setItem(i, undefined);
         }
         player.runCommand("clear @s");
+        player.runCommand("effect @s clear")
       }
 
       // ✅ ロビー座標の取得
@@ -164,14 +185,19 @@ export function gamemastersystemscript(){
       } catch (e) {
         console.warn("⚠️ config_data 読み込み失敗:", e);
       }
-      player.teleport(lobby);
+
   
       // ✅ ロビーにTP
       if (lobby && typeof lobby.x === "number") {
         player.runCommand("gamemode 2");
         player.runCommand("xp -1000L");
+        try{
         player.teleport(lobby);
         player.sendMessage("§a🏁 ロビーに戻されました");
+        } catch{
+          player.sendMessage(`§l§g[GameMaster.js]§l§c!ERROR! ロビー位置が未設定です!`);
+          player.sendMessage(`§l§g[GameMaster.js]§l§cロビーへの転送ができませんでした`);
+        }
       }
   
       // ✅ アイテム付与
@@ -187,19 +213,6 @@ export function gamemastersystemscript(){
     }
   
     world.setDynamicProperty(GAME_STATE_KEY, JSON.stringify({ started: false }));
-  }
-  // 管理者リストを取得する関数
-  function getAdminList() {
-    try {
-      const raw = world.getDynamicProperty(ADMIN_LIST_KEY);
-      const parsed = JSON.parse(raw ?? "[]");
-      for (const name of CREATORS) {
-      if (!parsed.includes(name)) parsed.push(name);
-      }
-      return parsed;
-    } catch {
-      return [CREATORS];
-    }
   }
 
   // 配列をシャッフルする関数

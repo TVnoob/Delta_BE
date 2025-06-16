@@ -1,11 +1,29 @@
 // scripts/ssytems/GameSystems/PlayerSpawn.js
-import { world, ItemStack } from "@minecraft/server";
-import { ADMIN_LIST_KEY, CREATORS } from "../consts.js";
+import { world, ItemStack, system } from "@minecraft/server";
+import { getOwnerNames, getAdminList } from "../consts.js";
+
+export const OWNER_NAME = ["world_owner"];
+
+let creatorInitialized = false;
 
 export function playerjoinevent01okk(){
     world.afterEvents.playerSpawn.subscribe((event) => {
     const players = world.getPlayers();
     const player = event.player;
+    const name = player.name;
+
+    if (!player || creatorInitialized) return;
+    let owners = getOwnerNames();
+
+    if (!owners.includes(name)) {
+        owners.push(name);
+        world.setDynamicProperty("owner_names", JSON.stringify(owners));
+        console.warn( "作動済み" );
+        player.sendMessage("§a✅ あなたがオーナーとして登録されました。");
+    }
+
+    creatorInitialized = true;
+
     if (!player) {
         console.warn("⛔ playerSpawnイベントにプレイヤーが含まれていません。");
         return;
@@ -31,7 +49,12 @@ export function playerjoinevent01okk(){
     } catch (e) {
     console.warn("⚠️ config_data 読み込み失敗:", e);
     }
+    try {
     player.teleport(lobby);
+    } catch (e){
+    console.warn("ロビー位置が設定されてないため終了", e);
+    player.sendMessage("§l§cロビー位置が設定されてません!");
+    }
 
     // インベントリクリア
     const inv = player.getComponent("minecraft:inventory")?.container;
@@ -56,17 +79,4 @@ export function playerjoinevent01okk(){
         player.runCommand('replaceitem entity @s slot.hotbar 0 additem:setusystem 1 0 {"item_lock":{"mode":"lock_in_slot"}}');
     }
     });
-}
-
-function getAdminList() {
-try {
-    const raw = world.getDynamicProperty(ADMIN_LIST_KEY);
-    const parsed = JSON.parse(raw ?? "[]");
-    for (const name of CREATORS) {
-    if (!parsed.includes(name)) parsed.push(name);
-    }
-    return parsed;
-} catch {
-    return [CREATORS];
-}
 }

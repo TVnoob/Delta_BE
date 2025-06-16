@@ -59,20 +59,25 @@
 ## BanList(強制登録済み)
 - 現在はなし
 
-# スクリプト一覧(計20個、動的スクリプト18個)
-- [adminlist] → ハードコード:CREATORS
+## lists
+- [adminlist] → ハードコード:getGods(); (動的)
 - [banlist] → ハードコード:TERRORIST
+
+## BanList(強制登録済み)
+
+# スクリプト一覧
 - main.js … スクリプトファイル証明
 - consts.js … const宣言コードを集合させたconfigファイル
 
 ## Game Systems
+- JailrandomTP.js … 牢屋に飛ぶところをランダムTPに
 - PlayerSpawn.js … GameMaster.jsにあるコードの一部を移動させた
-- (GameMaster.js) … ゲーム開始・終了・タグ管理・アイテム配布
+- GameMaster.js … ゲーム開始・終了・タグ管理・アイテム配布
 - endGameSystem.js … 状態監視と勝敗判定（強制終了含む）
 - reviveSystem.js … 捕まり後の20秒処理・復活or観戦
 - speedEnevt.js … スタミナムイベント
 - catchedEv.js … 金棒のシステム
-- (BanList.js) … BanListに入っているプレイヤーは全員強制観戦[adminlist,banlist]
+- BanList.js … BanListに入っているプレイヤーは全員強制観戦[adminlist,banlist]
 - RandomTP.js … ランダムTPシステム
 - startcountdownonlysystem.js … reviveSystem.jsの機能の一部を隔離させた
 
@@ -82,7 +87,7 @@
 - permissionGuard.js … 高権限所持プレイヤー関連システム[adminlist]
 
 ## Jail Systems
-- (jailSystem.js) … 捕まったプレイヤーのテレポート・復活数記録
+- jailSystem.js … 捕まったプレイヤーのテレポート・復活数記録
 
 ## Utilitys
 - antiEscapeSystem.js … 境界越え・下限Y対策(broken)
@@ -97,18 +102,9 @@
 
 - rootchestlib.js … RootChestCreateKitから統合、rootchestIDを管理[ops]
 
-- (autoreloadrc.js) … RootChestCreateKitから統合、rootchestを定期的に再生成[ops]
+- autoreloadrc.js … RootChestCreateKitから統合、rootchestを定期的に再生成[ops]
 
-- (loadrc.js) … RootChestCreateKitから統合、rootchestを生成できる[ops]
-
-## special
-- banlist(export)
-- jailSystem.js(export)
-- GameMaster.js(import,BanList + jailSystem + autoreloadrc)
-- autoreloadrc.js(export)
-- loadrc.js(import,autoreloadrc)
-
-- 説明: これらは互いにスクリプトをimportしあってるので別にくくりました
+- loadrc.js … RootChestCreateKitから統合、rootchestを生成できる[ops]
 
 ## temp_scripts
 - script1.js … 金棒の加速スクリプト

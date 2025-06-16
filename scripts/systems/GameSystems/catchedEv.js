@@ -19,7 +19,10 @@ export function registerCatchedEvents() {
         if (!heldItem || heldItem.typeId !== "minecraft:stick") return;
 
         try {
-            hurtEntity.addTag("catched");
+            const player = hurtEntity
+            if (!(player instanceof Player)) return;
+             if (!(player instanceof Player)) return;
+            player.addTag("catched");
         } catch (e) {
             console.warn("⚠️ タグ付与エラー:", e);
         }

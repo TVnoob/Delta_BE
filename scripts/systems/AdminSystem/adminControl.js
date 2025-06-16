@@ -1,7 +1,7 @@
 // scripts/systems/adminControl.js
 import { world, system } from "@minecraft/server";
 import { ModalFormData } from "@minecraft/server-ui";
-import { CREATORS, ADMIN_LIST_KEY, JAIL_POS_KEY, REVIVE_LIMIT_KEY } from "../consts";
+import { getGods, ADMIN_LIST_KEY, JAIL_POS_KEY, REVIVE_LIMIT_KEY, getAdminList } from "../consts.js";
 
 export function systemscript1() {
   world.beforeEvents.itemUse.subscribe((event) => {
@@ -44,9 +44,9 @@ export function systemscript1() {
       const toRemove = typeof r.formValues[1] === "string" ? r.formValues[1].trim() : "";
 
       const current = new Set(getAdminList());
-
+      const GODS = getGods();
       if (toAdd) current.add(toAdd);
-      if (toRemove && !CREATORS.includes(toRemove)) current.delete(toRemove);
+      if (toRemove && !GODS.includes(toRemove)) current.delete(toRemove);
 
       const finalList = Array.from(current);
       world.setDynamicProperty(ADMIN_LIST_KEY, JSON.stringify(finalList));
@@ -56,64 +56,51 @@ export function systemscript1() {
       player.sendMessage("§c⛔ 管理者UIの表示に失敗しました。");
     });
   }
+}
 
-  function showJailSetupUI(player) {
+export function showJailSetupUI(player) {
     const form = new ModalFormData()
       .title("牢屋座標設定")
-      .toggle("この位置を牢屋1として登録")
+      .toggle("jailという名前が付いた防具立ての座標に牢屋を登録")
+      .toggle("xyzfullという名前が付いた防具立ての座標をランダム湧き位置に登録")
       .textField("復活できる回数", "例: 3", { defaultValue: "3" });
 
-    form.show(player).then(response => {
-      if (response.canceled) return;
 
-      const shouldSetJail = response.formValues[0]; // ← トグルの値（true/false）
-      const reviveLimitInput = response.formValues[1];
+  form.show(player).then(res => {
+    if (res.canceled) return;
 
-      const pos = {
-        x: Math.floor(player.location.x),
-        y: Math.floor(player.location.y),
-        z: Math.floor(player.location.z)
-      };
+    const [setJail, doReset, reviveLimitInput] = res.formValues;
 
-      const raw = world.getDynamicProperty(JAIL_POS_KEY) ?? "{}";
-      let jailPositions;
-      try {
-        jailPositions = JSON.parse(raw);
-      } catch {
-        jailPositions = {};
-      }
+    // 🔧 JAIL_POS_KEY の読み込みと初期化
+    let jailPoints = [];
+    try {
+      const raw = world.getDynamicProperty(JAIL_POS_KEY) ?? "[]";
+      jailPoints = JSON.parse(raw);
+      if (!Array.isArray(jailPoints)) jailPoints = [];
+    } catch {
+      jailPoints = [];
+    }
 
-      if (shouldSetJail) {
-        jailPositions.jail1 = pos;
-        player.sendMessage("§a✅ 牢屋1の座標を設定しました。");
-      }
+    if (setJail) {
+      player.runCommand("scriptevent jail:select");
+      player.sendMessage("§a✅ 牢屋を登録しました");
+    }
+    if (doReset) {
+      player.runCommand("scriptevent xyz:select");
+      player.sendMessage("§a✅ ランダム湧き位置を登録しました");
+    }
 
-      const reviveLimit = parseInt(reviveLimitInput);
-      if (!isNaN(reviveLimit) && reviveLimit >= 0) {
-        world.setDynamicProperty(REVIVE_LIMIT_KEY, reviveLimit);
-        player.sendMessage(`§a✅ 復活できる回数を ${reviveLimit} 回に設定しました。`);
+      const reviveCount = parseInt(reviveLimitInput);
+      if (!isNaN(reviveCount) && reviveCount >= 0) {
+        world.setDynamicProperty(REVIVE_LIMIT_KEY, reviveCount);
+        player.sendMessage(`§a✅ 復活できる回数を ${reviveCount} 回に設定しました。`);
       } else {
         player.sendMessage("§c⛔ 無効な復活回数が入力されました。");
       }
 
-      world.setDynamicProperty(JAIL_POS_KEY, JSON.stringify(jailPositions));
+      world.setDynamicProperty(JAIL_POS_KEY, JSON.stringify(jailPoints));
     }).catch(err => {
-      console.warn(`⚠️ 牢屋UIエラー: ${err}`);
+      console.warn("⚠️ 牢屋UIエラー:", err);
       player.sendMessage("§c⛔ 牢屋座標の設定に失敗しました。");
     });
-  }
-
-  function getAdminList() {
-    try {
-      const raw = world.getDynamicProperty(ADMIN_LIST_KEY);
-      const parsed = JSON.parse(raw ?? "[]");
-      for (const name of CREATORS) {
-        if (!parsed.includes(name)) parsed.push(name);
-      }
-      return [...new Set(parsed)];
-    } catch (e) {
-      console.warn(`⚠️ 管理者リストの解析エラー: ${e}`);
-      return [...CREATORS];
-    }
-  }
 }

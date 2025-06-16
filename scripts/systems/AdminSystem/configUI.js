@@ -1,7 +1,7 @@
 // scripts/susyems/AdminSystem/configUI.js
 import { world, system } from "@minecraft/server";
 import { ModalFormData } from "@minecraft/server-ui";
-import { CREATORS, CONFIG_KEY, ADMIN_LIST_KEY } from "../consts.js";
+import { CONFIG_KEY, getAdminList } from "../consts.js";
 
 // 管理者が使用する設定UI
 export function configUIHandler() {
@@ -38,14 +38,15 @@ function showConfigUI(player) {
     .toggle("強制終了をONにする（broken!）", {defaultValue: true})
     .textField("制限時間（秒）", "例: 300", { defaultValue: String(config.timeLimitSec ?? 300)})
     .dropdown("鬼スポーン位置をここに設定", ["実行しない", "ここに設定"], { defaultValueIndex: 0 })
-    .dropdown("ロビー地点をここに設定", ["実行しない", "ここに設定"], { defaultValueIndex: 0 });
+    .dropdown("ロビー地点をここに設定", ["実行しない", "ここに設定"], { defaultValueIndex: 0 })
+    .toggle("手動復活方式にする", { defaultValue: config.reviveMode === "manual" });
     
 
 
   form.show(player).then(response => {
     if (response.canceled) return;
 
-  const [oniCountText, minYLimitText, developToggle, borderScanToggle, forceToggle, timeLimitText, oniSet, lobbySet] = response.formValues;
+  const [oniCountText, minYLimitText, developToggle, borderScanToggle, forceToggle, timeLimitText, oniSet, lobbySet, reviveToggle] = response.formValues;
   
   const timeLimit = parseInt(timeLimitText);
   if (!isNaN(timeLimit)) config.timeLimitSec = timeLimit;
@@ -66,6 +67,8 @@ function showConfigUI(player) {
   if (developToggle === true) config.developMode = true;
   if (borderScanToggle === true) config.borderScan = true;
   if (forceToggle === true) config.forceEnd = true;
+  config.reviveMode = reviveToggle ? "manual" : "auto";
+
 
 
   // 現在位置を取得（必要なら設定）
@@ -92,17 +95,4 @@ function showConfigUI(player) {
     console.warn(`[ConfigUI] フォームエラー: ${err}`);
     player.sendMessage("§c⚠️ UIの表示に失敗しました。");
   });
-}
-
-function getAdminList() {
-  try {
-    const raw = world.getDynamicProperty(ADMIN_LIST_KEY);
-    const parsed = JSON.parse(raw ?? "[]");
-    for (const name of CREATORS) {
-    if (!parsed.includes(name)) parsed.push(name);
-    }
-    return parsed;
-  } catch {
-    return [CREATOR];
-  }
 }

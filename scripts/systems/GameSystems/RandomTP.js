@@ -38,6 +38,8 @@ export function thisistruerandomTP() {
 export function randomTeleportPlayer(player) {
   if (teleportPoints.length === 0) {
     console.warn(`[RandomTP] ⚠️ TP先が登録されていません。プレイヤー: ${player.name}`);
+    player.sendMessage(`§l§g[RandomTP.js]§l§c!WARNING!どこにもランダムTP先が登録されてません!`);
+    
     return;
   }
 
