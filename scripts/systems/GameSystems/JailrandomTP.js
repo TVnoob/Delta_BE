@@ -46,3 +46,12 @@ export function randomTeleportToJail(player) {
   console.warn(`[JailTP] ${player.name} を牢屋TP: (${target.x}, ${target.y}, ${target.z})`);
 }
 
+export function getJailTPList() {
+  try {
+    const raw = world.getDynamicProperty(JAIL_POS_KEY) ?? "[]";
+    const arr = JSON.parse(raw);
+    return Array.isArray(arr) ? arr : [];
+  } catch {
+    return [];
+  }
+}
