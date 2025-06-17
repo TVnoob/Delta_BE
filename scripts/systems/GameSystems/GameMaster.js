@@ -1,6 +1,8 @@
 // scripts/systems/special/GameMaster.js
 import { system, world, ItemStack } from "@minecraft/server";
 import { resetAllTimerMap } from "../rcuis/autoreloadrc.js";
+import { getRandomTPList } from "./RandomTP.js";
+import { getJailTPList } from "./JailrandomTP.js";
 import { resetCatchCounts } from "../JailSystems/jailSystem.js"
 import { getAllBanList } from "./BanList.js";
 import { GAME_STATE_KEY, TERRORIST, getAdminList } from "../consts.js";
@@ -15,6 +17,13 @@ export function gamemastersystemscript(){
     const banList = getAllBanList();
 
     if (id === "bgc:start") {
+    const source = event.player ?? event.sourceEntity; // プレイヤー
+    if (!validateGameStart(source)) return;
+    if (source && typeof source.runCommand === "function") { // ここで他のスクリプトのbgc:startトリガーの代用
+      source.runCommand("scriptevent bgc:otherstart");
+    } else {
+      console.warn("⚠️ 実行者がプレイヤーではないため、bgc:otherstart を実行できませんでした。");
+    }
     resetCatchCounts();
     try {
       const players = world.getPlayers();
@@ -226,3 +235,42 @@ export function gamemastersystemscript(){
   }
 }
 )}
+
+function validateGameStart(source) {
+    const hasRandomTP = getRandomTPList().length > 0;
+    const hasJailTP = getJailTPList().length > 0;
+
+  let config = {};
+  try {
+    const configRaw = world.getDynamicProperty("config_data") ?? "{}";
+    config = JSON.parse(configRaw);
+  } catch (e) {
+    console.warn("[GameMaster] config_data 読み込み失敗:", e);
+  }
+
+  const hasLobby = config?.lobby && typeof config.lobby.x === "number";
+  const hasOniSpawn = config?.oniSpawn && typeof config.oniSpawn.x === "number";
+
+  // ⚠️ メッセージ送信：プレイヤーなら個別、そうでなければ broadcast
+  const send = (msg) => {
+    if (source && typeof source.sendMessage === "function") {
+      source.sendMessage(msg);
+    } else {
+      world.sendMessage(msg); // コマンドブロックなどからの実行
+    }
+  };
+
+  if (!hasRandomTP) send("§c❌ ランダムTP地点が未登録です");
+  if (!hasJailTP) send("§c❌ 牢屋TP地点が未登録です");
+  if (!hasLobby) send("§c❌ ロビー地点が未登録です");
+  if (!hasOniSpawn) send("§c❌ 鬼スポーン地点が未登録です");
+
+  const allSet = hasRandomTP && hasJailTP && hasLobby && hasOniSpawn;
+  if (!allSet) {
+    send("§l§eゲームスタートをキャンセルしました。セットアップが不完全です。");
+    return false;
+  }
+  if (gameStarted) return false;
+
+  return true;
+}

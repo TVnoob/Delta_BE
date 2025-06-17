@@ -35,7 +35,7 @@ export function endGameSystem() {
   });
 
   system.afterEvents.scriptEventReceive.subscribe(event => {
-    if (event.id === "bgc:start") {
+    if (event.id === "bgc:otherstart") {
       world.setDynamicProperty(GAME_STARTED_KEY, true);
       console.warn("🎮 ゲームスタート信号を受信");
       remainingTicks = -1;

@@ -37,12 +37,35 @@ export function JailramdomTPsettingcodes(){
 
 // ✅ 関数：指定プレイヤーをランダムな牢屋座標へTP
 export function randomTeleportToJail(player) {
-  if (!player || jailPoints.length === 0) {
-    console.warn("[JailTP] ⚠️ TP先未登録またはプレイヤーが無効です");
+  const list = getJailTPList(); // ← これで読み込み
+  const hasJailRandomTP = list.length > 0;
+  if (!player || !hasJailRandomTP) {
+    console.warn(`[JailRandomTP] ⚠️ プレイヤーまたはTPリストが無効です`);
     return;
   }
-  const target = jailPoints[Math.floor(Math.random() * jailPoints.length)];
-  player.teleport(target);
-  console.warn(`[JailTP] ${player.name} を牢屋TP: (${target.x}, ${target.y}, ${target.z})`);
+
+  const target = list[Math.floor(Math.random() * list.length)];
+
+  // Vector3チェック
+  if (!target || typeof target.x !== "number" || typeof target.y !== "number" || typeof target.z !== "number") {
+    console.warn(`[JailRandomTP] ⚠️ 無効なTP座標: ${JSON.stringify(target)}`);
+    return;
+  }
+
+  try {
+    player.teleport(target);  // ← Vector3 でなければここでエラー
+    console.warn(`[JailRandomTP] ${player.name} をランダムTP: ${target.x}, ${target.y}, ${target.z}`);
+  } catch (e) {
+    console.warn(`[JailRandomTP] 🚨 テレポート失敗: ${e}`);
+  }
 }
 
+export function getJailTPList() {
+  try {
+    const raw = world.getDynamicProperty(JAIL_POS_KEY) ?? "[]";
+    const arr = JSON.parse(raw);
+    return Array.isArray(arr) ? arr : [];
+  } catch {
+    return [];
+  }
+}
