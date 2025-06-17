@@ -268,6 +268,7 @@ function validateGameStart(source) {
     send("§l§eゲームスタートをキャンセルしました。セットアップが不完全です。");
     return false;
   }
+  if (gameStarted) return false;
 
   return true;
 }
