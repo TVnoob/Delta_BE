@@ -13,7 +13,8 @@ let initialPhase = false;
 
 export function reviveSystem() {
   system.afterEvents.scriptEventReceive.subscribe(e => {
-    if (e.id !== "bgc:otherstart") return;
+    if (e.id === "bgc:otherstart")
+    console.warn("reviveSystem.js is working");
     initialPhase = true;
     reviveTimers.clear();
 

@@ -23,6 +23,7 @@ export function thisistruerandomTP() {
       }
 
       if (addedCount > 0) {
+        world.setDynamicProperty(RANDOMTP_POS_KEY, JSON.stringify(teleportPoints));
         console.warn(`[RandomTP] ✅ ${addedCount} 箇所を追加登録しました。合計: ${teleportPoints.length}`);
       } else {
         console.warn("[RandomTP] ❌ xyzfull の防具立てが見つかりませんでした。");
@@ -31,22 +32,34 @@ export function thisistruerandomTP() {
 
     if (event.id === "xyz:reset") {
       teleportPoints = [];
+      world.setDynamicProperty(RANDOMTP_POS_KEY, JSON.stringify(teleportPoints));
       console.warn("[RandomTP] ⚠️ 全ての登録ポイントをリセットしました。");
     }
   });
 }
 // 呼び出し式トリガーに対応させたランダムTP
 export function randomTeleportPlayer(player) {
-  if (teleportPoints.length === 0) {
-    console.warn(`[RandomTP] ⚠️ TP先が登録されていません。プレイヤー: ${player.name}`);
-    player.sendMessage(`§l§g[RandomTP.js]§l§c!WARNING!どこにもランダムTP先が登録されてません!`);
-    
+  const list = getRandomTPList(); // ← これで読み込み
+  const hasRandomTP = list.length > 0;
+  if (!player || !hasRandomTP) {
+    console.warn(`[RandomTP] ⚠️ プレイヤーまたはTPリストが無効です`);
     return;
   }
 
-  const target = teleportPoints[Math.floor(Math.random() * teleportPoints.length)];
-  player.teleport(target);
-  console.warn(`[RandomTP] ${player.name} をランダムTP: ${target.x}, ${target.y}, ${target.z}`);
+  const target = list[Math.floor(Math.random() * list.length)];
+
+  // Vector3チェック
+  if (!target || typeof target.x !== "number" || typeof target.y !== "number" || typeof target.z !== "number") {
+    console.warn(`[RandomTP] ⚠️ 無効なTP座標: ${JSON.stringify(target)}`);
+    return;
+  }
+
+  try {
+    player.teleport(target);  // ← Vector3 でなければここでエラー
+    console.warn(`[RandomTP] ${player.name} をランダムTP: ${target.x}, ${target.y}, ${target.z}`);
+  } catch (e) {
+    console.warn(`[RandomTP] 🚨 テレポート失敗: ${e}`);
+  }
 }
 
 export function getRandomTPList() {

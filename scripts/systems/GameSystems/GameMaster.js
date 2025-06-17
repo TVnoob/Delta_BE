@@ -17,9 +17,13 @@ export function gamemastersystemscript(){
     const banList = getAllBanList();
 
     if (id === "bgc:start") {
-    const source = event.player ?? event.sourceEntity; // プレイヤーか、なければ他の実行主体
+    const source = event.player ?? event.sourceEntity; // プレイヤー
     if (!validateGameStart(source)) return;
-    player.runCommand("scriptevent bgc:otherstart") // ここで他のスクリプトのbgc:startトリガーの代用
+    if (source && typeof source.runCommand === "function") { // ここで他のスクリプトのbgc:startトリガーの代用
+      source.runCommand("scriptevent bgc:otherstart");
+    } else {
+      console.warn("⚠️ 実行者がプレイヤーではないため、bgc:otherstart を実行できませんでした。");
+    }
     resetCatchCounts();
     try {
       const players = world.getPlayers();
@@ -233,7 +237,7 @@ export function gamemastersystemscript(){
 )}
 
 function validateGameStart(source) {
-    const hasRandomTP = getRandomTPList().length > 0
+    const hasRandomTP = getRandomTPList().length > 0;
     const hasJailTP = getJailTPList().length > 0;
 
   let config = {};
