@@ -2,7 +2,7 @@
 import { system, world, ItemStack } from "@minecraft/server";
 import { resetAllTimerMap } from "../rcuis/autoreloadrc.js";
 import { getRandomTPList } from "./RandomTP.js";
-import { getJailTPList } from "./JailramdomTP.js";
+import { getJailTPList } from "./JailrandomTP.js";
 import { resetCatchCounts } from "../JailSystems/jailSystem.js"
 import { getAllBanList } from "./BanList.js";
 import { GAME_STATE_KEY, TERRORIST, getAdminList } from "../consts.js";
