@@ -15,8 +15,6 @@ export function gamemastersystemscript(){
     const player = event.player;
     const allPlayers = world.getPlayers();
     const banList = getAllBanList();
-    const hasRandomTP = getRandomTPList().length > 0;
-    const hasJailTP = getJailTPList().length > 0;
 
     if (id === "bgc:start") {
     const source = event.player ?? event.sourceEntity; // プレイヤーか、なければ他の実行主体
@@ -235,8 +233,8 @@ export function gamemastersystemscript(){
 )}
 
 function validateGameStart(source) {
-  const hasRandomTP = getRandomTPList().length > 0;
-  const hasJailTP = getJailTPList().length > 0;
+    const hasRandomTP = getRandomTPList().length > 0
+    const hasJailTP = getJailTPList().length > 0;
 
   let config = {};
   try {

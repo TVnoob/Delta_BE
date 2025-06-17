@@ -10,7 +10,7 @@ let initialPhase = false;
 
 export function settingjailsystem(){
   system.afterEvents.scriptEventReceive.subscribe(e => {
-    if (e.id !== "bgc:start") return;
+    if (e.id !== "bgc:otherstart") return;
     initialPhase = true;
     let reviveMode = "auto"; // reviveSystem.js と仕組みを併用(説明脳死)
     try {
