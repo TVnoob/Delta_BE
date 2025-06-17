@@ -1,6 +1,6 @@
 <<<<<<< HEAD
 
-# release alpha V1.4.0!
+# release alpha V1.4.1!
 ### リソースパック
 - link: https://github.com/TVnoob/Delta_RE
 
@@ -16,7 +16,7 @@
 
 - ゲームスタート:/scriptevent bgc:start
 
-- 有権者は/tag @s add EditCでconfig編集
+- ワールドオーナーは/tag @s add EditCでconfig編集
 
 - 強制終了:/scriptevent bgc:end
 
