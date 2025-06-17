@@ -4,6 +4,7 @@ import { JAIL_POS_KEY } from "../consts.js";
 
 const ARMORSTAND_TAG = "xyzfull";
 let teleportPoints = [];
+const RANDOMTP_POS_KEY = "random_tp_points"; // 新しいキー名（必要に応じて変更）
 
 // 📡 イベント登録関数
 export function thisistruerandomTP() {
@@ -46,4 +47,14 @@ export function randomTeleportPlayer(player) {
   const target = teleportPoints[Math.floor(Math.random() * teleportPoints.length)];
   player.teleport(target);
   console.warn(`[RandomTP] ${player.name} をランダムTP: ${target.x}, ${target.y}, ${target.z}`);
+}
+
+export function getRandomTPList() {
+  try {
+    const raw = world.getDynamicProperty(RANDOMTP_POS_KEY) ?? "[]";
+    const arr = JSON.parse(raw);
+    return Array.isArray(arr) ? arr : [];
+  } catch {
+    return [];
+  }
 }
