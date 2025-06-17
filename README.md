@@ -1,12 +1,11 @@
 <<<<<<< HEAD
 
 # プロジェクト状態
-- Dev-V1.4.0
+- Dev-V1.4.1
 
 ## 仕様変更又は追加
-### V1.3に以下の仕様を追加
-- ConfigUIから自動復活と手動復活を切り替え
-- 牢屋を「jail」という名前のついた防具立ての座標にし、adminUIにて登録可能(複数登録、ランダムTP対応)
+### V1.4には以下の仕様を追加
+- セットアップが完了できてない場合はゲームスタートを停止
 # git commands
 
 ## 安定板をアップデート
@@ -79,7 +78,7 @@
 - autoreloadrc.js
 - rootchestkitUI.js
 - これらはアプリが来てから修正に取り掛かります。
-## Develop team
+## Developers
 - Create by Delta_conveyor (The only developer)
 
 =======
