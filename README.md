@@ -1,6 +1,6 @@
 <<<<<<< HEAD
 
-# release alpha V1.4.1!
+# V1.4.1 is broken! (not support beta-api-2.1.0)
 ### リソースパック
 - link: https://github.com/TVnoob/Delta_RE
 
