@@ -1,6 +1,6 @@
 <<<<<<< HEAD
 
-# V1.4.1 is broken! (not support beta-api-2.1.0)
+# release V1.4.2 !
 ### リソースパック
 - link: https://github.com/TVnoob/Delta_RE
 
@@ -107,17 +107,10 @@
 
 
 # 今後の予定
-
-- 1.21.90に伴いbeta-APIがbeta-2.1.0になるので、その場合
-- source.isOpが使用できなくなり、スクリプトの一部が機能しなくなります
-- 機能しなくなると予想されたスクリプト
-- loadrc.js
-- rootchestlib.js
-- autoreloadrc.js
-- rootchestkitUI.js
-- これらはアプリが来てから修正に取り掛かります。
-
+- 未定
 ## 更新ログ
+
+- V1.4.2 1.21.90に対応
 
 - V1.4.1(alpha) システム改良
 
