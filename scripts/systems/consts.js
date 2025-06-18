@@ -39,10 +39,6 @@ export function getGods() {
   return [...new Set([...DEVELOPERS, ...getOwnerNames()])];
 }
 
-export function isOp(entity) {
-  try {
-    return entity?.hasTag("op") ?? false;
-  } catch {
-    return false;
-  }
+export function isOp(player) {
+  return player?.playerPermissionLevel === PlayerPermissionLevel.Operator;
 }
