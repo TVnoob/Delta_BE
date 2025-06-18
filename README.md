@@ -1,7 +1,7 @@
 <<<<<<< HEAD
 
 # プロジェクト状態
-- Dev-V1.4.2(not inject Node.js's)
+- Dev-V1.4.2(support to minecraft 1.21.90)
 
 ## 仕様変更又は追加
 ### V1.4には以下の仕様を追加
