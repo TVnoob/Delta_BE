@@ -1,7 +1,7 @@
 <<<<<<< HEAD
 
 # プロジェクト状態
-- Dev-V1.4.1
+- Dev-V1.4.2(not inject Node.js's)
 
 ## 仕様変更又は追加
 ### V1.4には以下の仕様を追加
@@ -69,15 +69,7 @@
 
 
 # 今後の予定
-
-- 1.21.90に伴いbeta-APIがbeta-2.1.0になるので、その場合
-- source.isOpが使用できなくなり、スクリプトの一部が機能しなくなります
-- 機能しなくなると予想されたスクリプト
-- loadrc.js
-- rootchestlib.js
-- autoreloadrc.js
-- rootchestkitUI.js
-- これらはアプリが来てから修正に取り掛かります。
+- 未定
 ## Developers
 - Create by Delta_conveyor (The only developer)
 

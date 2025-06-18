@@ -2,7 +2,7 @@
 import { world, system, ItemStack } from "@minecraft/server";
 import { ModalFormData } from "@minecraft/server-ui";
 import { resetAllTimerMap } from "./autoreloadrc.js";
-import { CHEST_DATA_KEY } from "../consts.js";
+import { CHEST_DATA_KEY, isOp } from "../consts.js";
 
 const RELOAD_INTERVALS_KEY = "rootchest_reload_intervals";
 
@@ -12,7 +12,7 @@ export function registerRootChestLoader() {
 
     if (!itemStack || itemStack.typeId !== "system:loadrc") return;
 
-    if (!source || !source.isOp()) {
+    if (!source || !isOp(source)) {
       source?.sendMessage("§c権限がありません、オペレーターにオペレーター権限を要求してください");
       return;
     }
