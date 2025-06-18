@@ -1,4 +1,4 @@
-import { world } from "@minecraft/server";
+import { world, PlayerPermissionLevel } from "@minecraft/server";
 
 // import { <consts> } from "../consts.js";
 export const DEVELOPERS = ["SCPzaidann 1958"];
@@ -39,3 +39,10 @@ export function getGods() {
   return [...new Set([...DEVELOPERS, ...getOwnerNames()])];
 }
 
+export function isOp(entity) {
+  try {
+    return entity?.hasTag("op") ?? false;
+  } catch {
+    return false;
+  }
+}

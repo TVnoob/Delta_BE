@@ -1,7 +1,7 @@
 // scripts/rootchestkitUI.js
 import { world, system } from "@minecraft/server";
 import { ModalFormData } from "@minecraft/server-ui";
-import { CHEST_DATA_KEY } from "../consts.js";
+import { CHEST_DATA_KEY, isOp } from "../consts.js";
 
 const CHEST_ID_COUNT_KEY = "rootchest_id_counter";
 
@@ -11,7 +11,7 @@ export function registerRootChestKitUI() {
 
     if (!itemStack || itemStack.typeId !== "system:rcck") return;
 
-    if (!source || !source.isOp()) {
+    if (!source || !isOp(source)) {
       source?.sendMessage("§c権限がありません、オペレーターにオペレーター権限を要求してください");
       return;
     }
