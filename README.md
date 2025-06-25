@@ -1,5 +1,5 @@
 <<<<<<< HEAD
-
+# 無期限の開発休止が決定しました、更新頻度は限りなく低くなります。
 # release V1.4.2 !
 ### リソースパック
 - link: https://github.com/TVnoob/Delta_RE
